@@ -1,0 +1,34 @@
+package org.salemelrahal.drhack.attack;
+
+import bothack.actions.Actions;
+import org.salemelrahal.drhack.enemy.Enemy;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.Direction;
+import bothack.bot.monsters.IMonster;
+import bothack.bot.Position;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Mark adjacent enemy"
+when
+	$game : IGame($player : player)
+	$enemy : Enemy($monster : target, isAdjacent(), !isMarked(), target.type().name() != "floating eye")
+then
+	modify ($enemy) {
+		setMarked(true);
+	}
+end
+
+rule "Mark non adjacent enemy when there are no adjacent enemies"
+when
+	$game : IGame($player : player)
+	$enemy : Enemy($monster : target, !isAdjacent(), !isMarked(), target.type().name() != "floating eye")
+	not Enemy(isAdjacent(), target.type().name() != "floating eye")
+then
+	modify ($enemy) {
+		setMarked(true);
+	}
+end
+

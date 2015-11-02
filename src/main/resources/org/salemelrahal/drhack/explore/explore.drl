@@ -1,0 +1,29 @@
+package org.salemelrahal.drhack.explore;
+
+import bothack.actions.Actions;
+import bothack.actions.IAction;
+import bothack.actions.Navigation;
+import bothack.actions.Navigation.IPath;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.dungeon.Branch;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.util.MapUtil;
+
+global org.slf4j.Logger logger;
+
+rule "Explore current level"
+when
+	$game : IGame($player : player)
+then
+	insert(PrioritizedAction.create(0 ,Navigation.explore($game, Branch.MAIN), "Exploring main branch by default...."));
+end
+
+
+rule "Move towards food"
+when
+	$game : IGame($player : player)
+	$path : IPath() from Navigation.navigate($game,MapUtil.HAS_FOOD($game))
+then
+	insert(PrioritizedAction.create(5 ,$path.step(), "Navigating towards  " + $path.step()));
+end

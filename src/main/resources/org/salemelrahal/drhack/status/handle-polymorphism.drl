@@ -1,0 +1,26 @@
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.state.Polymorphed;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Recognize polymorphism"
+when
+	IGame($player : player, player.polymorphed() != null)
+then
+	insert(new Polymorphed($player.polymorphed()));
+end
+
+
+rule "Wait when polymorphed"
+when
+	IGame($player : player)
+	Polymorphed() //TODO: care about type
+then
+	insert(PrioritizedAction.create(13 , Actions.Wait(), "waiting to not be polymorphed"));
+end

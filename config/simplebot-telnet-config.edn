@@ -1,0 +1,10 @@
+{
+ :javabot "org.salemelrahal.drhack.DroolsBot"
+ :interface :telnet
+ :menubot "bothack.bots.dgl-menu"
+ :host "nethack.alt.org"
+ :port 23
+ :dgl-login "drhack"
+ :dgl-pass "drhack"
+ :ttyrec true
+}

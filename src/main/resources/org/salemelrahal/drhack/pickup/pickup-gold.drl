@@ -1,0 +1,16 @@
+package org.salemelrahal.drhack.pickup;
+
+import bothack.bot.items.ItemType;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.item.ItemOnTile;
+import org.salemelrahal.drhack.state.InShop;
+
+global org.slf4j.Logger logger;
+
+rule "Pick up gold"
+when
+	ItemOnTile($gold : item,  item.type() == ItemType.byName("gold piece"))
+	not InShop()
+then
+	insert(PrioritizedAction.create(1 , Actions.PickUp($gold.label()), "picking up gold"));
+end

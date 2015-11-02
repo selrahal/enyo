@@ -1,0 +1,13 @@
+package org.salemelrahal.drhack.flatten;
+
+import bothack.bot.IGame;
+import bothack.bot.dungeon.RoomType;
+import org.salemelrahal.drhack.state.InShop;
+
+rule "Identify shop"
+when
+	$game : IGame( $tile : currentLevel.at(player))
+	eval($tile.room() == RoomType.SHOP)
+then
+	insert(new InShop());
+end

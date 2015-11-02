@@ -1,0 +1,20 @@
+package org.salemelrahal.drhack.attack;
+
+import bothack.actions.Actions;
+import org.salemelrahal.drhack.enemy.Enemy;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.Direction;
+import bothack.bot.monsters.IMonster;
+import bothack.bot.Position;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Melee attack adjacent target enemy"
+when
+	$game : IGame($player : player)
+	Enemy($monster : target, isMarked(), isAdjacent())
+then
+	insertLogical(PrioritizedAction.create(10 , Actions.Move(Direction.towards($player, $monster)), "attack adjacent marked monster " + $monster.type().name()));
+end

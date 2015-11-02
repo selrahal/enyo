@@ -1,0 +1,30 @@
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.state.Lycanthropic;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Recognize lycanthropy"
+when
+	IGame($player : player, player.hasLycantrophy())
+then
+	insert(new Lycanthropic());
+end
+
+
+rule "Pray when lycanthropic"
+when
+	IGame($player : player, canPray())
+	Lycanthropic()
+then
+	insert(PrioritizedAction.create(10 , Actions.Pray(), "praying because lycanthropic"));
+end
+
+
+
+
