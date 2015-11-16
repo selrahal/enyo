@@ -30,7 +30,7 @@ public class DroolsActionHandler implements IActionHandler {
 
 	public IAction chooseAction(IGame gamestate) {
 		KieSession kieSession = kieBase.newKieSession();
-		kieSession.removeEventListener(new RuleNameLogger());
+//		kieSession.addEventListener(new RuleNameLogger(logger));
 		kieSession.setGlobal("logger", logger);
 		kieSession.insert(gamestate);
 		kieSession.fireAllRules();
@@ -52,7 +52,7 @@ public class DroolsActionHandler implements IActionHandler {
 				}
 			}
 			PrioritizedAction toReturn = actions.get(0);
-			logger.info("Rule set chose " + toReturn + " - " + toReturn.getReason());
+			logger.info("Rule set chose " + toReturn.getAction() + " - " + toReturn.getReason());
 			kieSession.dispose();		
 			return toReturn.getAction();
 		}

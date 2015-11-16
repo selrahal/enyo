@@ -25,7 +25,7 @@ when
 	ItemOnTile($food : item,  item.type() == ItemType.byName("food ration"))
 	not InShop()
 then
-	insert(PrioritizedAction.create(3 , Actions.PickUp($food.label()), "picking up food ration outside of a shop"));
+	insertLogical(PrioritizedAction.create(3 , Actions.PickUp($food.label()), "picking up food ration outside of a shop"));
 end
 
 rule "Pick up lichen corpse outside of a shop"
@@ -33,5 +33,13 @@ when
 	ItemOnTile($corpse : item, item.type() == ItemType.byName("lichen corpse"))
 	not InShop()
 then
-	insert(PrioritizedAction.create(3 , Actions.PickUp($corpse.label()), "picking up lichen corpse outside of a shop"));
+	insertLogical(PrioritizedAction.create(3 , Actions.PickUp($corpse.label()), "picking up lichen corpse outside of a shop"));
+end
+
+rule "Pick up lizard corpse outside of a shop"
+when
+	ItemOnTile($corpse : item, item.type() == ItemType.byName("lizard corpse"))
+	not InShop()
+then
+	insertLogical(PrioritizedAction.create(3 , Actions.PickUp($corpse.label()), "picking up lizard corpse outside of a shop"));
 end

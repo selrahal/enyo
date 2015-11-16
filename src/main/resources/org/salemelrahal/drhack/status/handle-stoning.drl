@@ -1,0 +1,31 @@
+package org.salemelrahal.drhack.hunger;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.item.ItemOnTile;
+import org.salemelrahal.drhack.state.InShop;
+import bothack.bot.items.ItemType;
+
+global org.slf4j.Logger logger;
+
+rule "Eat lizard corpse when stoning"
+when
+	IGame(player.isStoning())
+	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("lizard corpse"))
+then
+	insertLogical(PrioritizedAction.create(101 , Actions.Eat($slot), "eating lizard corpse because stoning"));
+end
+
+
+rule "Pray when stoning"
+when
+	IGame(player.isStoning(), canPray())
+then
+	insertLogical(PrioritizedAction.create(100 , Actions.Pray(), "praying because stoning"));
+end

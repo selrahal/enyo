@@ -7,14 +7,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class RuleNameLogger extends DefaultAgendaEventListener {
-	private static final Logger LOG = LoggerFactory.getLogger(RuleNameLogger.class);
+	private final Logger logger;
+	
+	public RuleNameLogger(Logger logger) {
+		this.logger = logger;
+	}
 
 	public void matchCreated(MatchCreatedEvent event) {
-		LOG.info("Match created: " + event.getMatch().getRule().getName());
+		logger.info("Match created: " + event.getMatch().getRule().getName());
 	}
 
 	public void afterMatchFired(AfterMatchFiredEvent event) {
-		LOG.info("Match fired: " + event.getMatch().getRule().getName());
+		logger.info("Match fired: " + event.getMatch().getRule().getName());
 	}
 
 }

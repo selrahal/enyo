@@ -18,5 +18,5 @@ when
 	$game : IGame($player : player, currentLevel.at(player).feature() != Feature.DOOR_OPEN)
 	Enemy($monster : target, isMarked(), !isAdjacent())
 then
-	insert(PrioritizedAction.create(8 , Navigation.navigate($game, $monster).step(), "move towards monster " + $monster.type().name()));
+	insertLogical(PrioritizedAction.create(8 , Navigation.navigate($game, $monster).step(), "move towards monster " + $monster.type().name()));
 end

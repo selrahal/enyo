@@ -1,0 +1,27 @@
+package org.salemelrahal.drhack.hunger;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.item.ItemOnTile;
+import org.salemelrahal.drhack.state.Panic;
+import bothack.bot.Direction;
+import org.salemelrahal.drhack.enemy.Enemy;
+
+
+global org.slf4j.Logger logger;
+
+rule "Zap random wands when panicced"
+when
+	$game : IGame($player : player)
+	Panic()
+	Enemy($monster : target, isMarked())
+	ItemInInventory($slot : slot, $item : item, $item.name().contains("wand"), $item.type() == null)
+then
+	insertLogical(PrioritizedAction.create(15 , Actions.ZapWandAt($slot, Direction.towards($player, $monster)), "zapping adjacent marked monster " + $monster.type().name() + " with " + $item.name()));
+end

@@ -31,8 +31,18 @@ end
 rule "Eat food outside of a shop"
 when
 	IGame($player : player, player.hunger() != Hunger.SATIATED)
-	ItemOnTile($corpse : item, $player.canEat(item))
+	ItemOnTile($corpse : item, $player.canEat(item), !item.isCorpse()) //refactor this corpse logic
 	not InShop()
 then
 	insert(PrioritizedAction.create(2 , Actions.Eat($corpse.label()), "eating edible item outside of a shop, " + $corpse.type().name() + "[" + $corpse.name() + "]"));
+end
+
+
+rule "Eat fresh corpse outside of a shop"
+when
+	$game : IGame($player : player, player.hunger() != Hunger.SATIATED, $tile : currentLevel.at(player))
+	ItemOnTile($corpse : item, $player.canEat(item), item.isCorpse(), $game.isCorpseFresh($tile, item)) //refactor this corpse logic
+	not InShop()
+then
+	insert(PrioritizedAction.create(2 , Actions.Eat($corpse.label()), "eating fresh corpse outside of a shop, " + $corpse.type().name() + "[" + $corpse.name() + "]"));
 end

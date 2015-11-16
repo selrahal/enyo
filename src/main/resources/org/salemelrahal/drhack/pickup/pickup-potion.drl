@@ -21,8 +21,8 @@ global org.slf4j.Logger logger;
 
 rule "Pick up potion outside of a shop"
 when
-	ItemOnTile($scroll : item,  item.type() == ItemType.byName("potion"))
+	ItemOnTile($scroll : item,  item.name().contains("potion"))
 	not InShop()
 then
-	insert(PrioritizedAction.create(2 , Actions.PickUp($scroll.label()), "picking up potion outside of a shop"));
+	insertLogical(PrioritizedAction.create(2 , Actions.PickUp($scroll.label()), "picking up potion outside of a shop"));
 end

@@ -1,0 +1,21 @@
+package org.salemelrahal.drhack.hunger;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.item.ItemOnTile;
+import org.salemelrahal.drhack.state.Panic;
+
+global org.slf4j.Logger logger;
+
+rule "Panic when low health"
+when
+	IGame($player : player, player.HP() < 3 || (player.HP()/player.maxHP()) < .2)
+then
+	insertLogical(new Panic());
+end

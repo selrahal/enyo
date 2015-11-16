@@ -1,6 +1,7 @@
 package org.salemelrahal.drhack.explore;
 
 import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
 import bothack.actions.IAction;
 import bothack.actions.Navigation;
 import bothack.actions.Navigation.IPath;
@@ -16,7 +17,7 @@ rule "Explore current level"
 when
 	$game : IGame($player : player)
 then
-	insert(PrioritizedAction.create(0 ,Navigation.explore($game, Branch.MAIN), "Exploring main branch by default...."));
+	insertLogical(PrioritizedAction.create(0 ,ActionsComplex.doSokoban($game), "Doing sokoban branch by default...."));
 end
 
 
@@ -25,5 +26,5 @@ when
 	$game : IGame($player : player)
 	$path : IPath() from Navigation.navigate($game,MapUtil.HAS_FOOD($game))
 then
-	insert(PrioritizedAction.create(5 ,$path.step(), "Navigating towards  " + $path.step()));
+	insertLogical(PrioritizedAction.create(5 ,$path.step(), "Navigating towards food " + $path.step()));
 end

@@ -1,0 +1,26 @@
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.state.Blind;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Recognize blindness"
+when
+	IGame($player : player, player.isBlindExternally())
+then
+	insert(new Blind());
+end
+
+
+rule "Wait when blind"
+when
+	IGame($player : player)
+	Blind() //TODO: care about type (external or not)
+then
+	insert(PrioritizedAction.create(13 , Actions.Wait(), "waiting to not be blind"));
+end

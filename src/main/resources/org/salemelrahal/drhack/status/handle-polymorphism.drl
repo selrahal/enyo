@@ -13,7 +13,7 @@ rule "Recognize polymorphism"
 when
 	IGame($player : player, player.polymorphed() != null)
 then
-	insert(new Polymorphed($player.polymorphed()));
+	insertLogical(new Polymorphed($player.polymorphed()));
 end
 
 
@@ -22,5 +22,5 @@ when
 	IGame($player : player)
 	Polymorphed() //TODO: care about type
 then
-	insert(PrioritizedAction.create(13 , Actions.Wait(), "waiting to not be polymorphed"));
+	insertLogical(PrioritizedAction.create(13 , Actions.Wait(), "waiting to not be polymorphed"));
 end
