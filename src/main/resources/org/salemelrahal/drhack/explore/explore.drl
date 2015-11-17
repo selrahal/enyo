@@ -17,14 +17,13 @@ rule "Explore current level"
 when
 	$game : IGame($player : player)
 then
-	insertLogical(PrioritizedAction.create(0 ,ActionsComplex.doSokoban($game), "Doing sokoban branch by default...."));
+	insertLogical(PrioritizedAction.create(0 ,Navigation.explore($game, Branch.MAIN), "Doing main branch by default...."));
 end
 
-
-rule "Move towards food"
+rule "Explore sokoban level"
 when
-	$game : IGame($player : player)
-	$path : IPath() from Navigation.navigate($game,MapUtil.HAS_FOOD($game))
+	$game : IGame($player : player, player.experienceLevel() > 7)
 then
-	insertLogical(PrioritizedAction.create(5 ,$path.step(), "Navigating towards food " + $path.step()));
+	insertLogical(PrioritizedAction.create(1 ,ActionsComplex.doSokoban($game), "Doing sokoban branch by default...."));
 end
+

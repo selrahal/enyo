@@ -11,7 +11,7 @@ global org.slf4j.Logger logger;
 
 rule "Recognize blindness"
 when
-	IGame($player : player, player.isBlindExternally())
+	IGame($player : player, player.isBlind())
 then
 	insert(new Blind());
 end

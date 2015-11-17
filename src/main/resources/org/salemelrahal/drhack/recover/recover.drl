@@ -1,0 +1,59 @@
+package org.salemelrahal.drhack.hunger;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.item.ItemOnTile;
+import org.salemelrahal.drhack.state.LowHealth;
+import org.salemelrahal.drhack.state.OnElbereth;
+import org.salemelrahal.drhack.state.OnEngravableTile;
+
+global org.slf4j.Logger logger;
+
+rule "Recover when low health when there are no monsters around"
+when
+	LowHealth()
+	not Enemy()
+then
+	insertLogical(PrioritizedAction.create(15 , Actions.Search(), "waiting to heal up "));
+end
+
+
+rule "Recover when low health in a safe spot"
+when
+	OnElbereth()
+	LowHealth()
+	not Enemy(!respectsElbereth())
+then
+	insertLogical(PrioritizedAction.create(15 , Actions.Search(), "waiting to heal up, on elbereth "));
+end
+
+rule "Engrave with wand of fire when in danger"
+when
+	IGame(canEngrave())
+	ItemInInventory($slot : slot, item.name().contains("wand of fire"))
+	OnEngravableTile()
+	not OnElbereth()
+	LowHealth()
+	not Enemy(!respectsElbereth())
+then
+	insertLogical(PrioritizedAction.create(15 , Actions.EngraveOverwriting($slot, "Elbereth"), "Engraving elbereth with wand of fire "));
+end
+
+
+rule "Engrave with finger when in danger"
+when
+	IGame(canEngrave())
+	OnEngravableTile()
+	not OnElbereth()
+	LowHealth()
+	not Enemy(!respectsElbereth())
+then
+	insertLogical(PrioritizedAction.create(14 , Actions.EngraveOverwriting('-', "Elbereth"), "Engraving elbereth with finger "));
+end
+

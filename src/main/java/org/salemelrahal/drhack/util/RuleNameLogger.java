@@ -4,7 +4,6 @@ import org.kie.api.event.rule.AfterMatchFiredEvent;
 import org.kie.api.event.rule.DefaultAgendaEventListener;
 import org.kie.api.event.rule.MatchCreatedEvent;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class RuleNameLogger extends DefaultAgendaEventListener {
 	private final Logger logger;
@@ -20,5 +19,4 @@ public class RuleNameLogger extends DefaultAgendaEventListener {
 	public void afterMatchFired(AfterMatchFiredEvent event) {
 		logger.info("Match fired: " + event.getMatch().getRule().getName());
 	}
-
 }

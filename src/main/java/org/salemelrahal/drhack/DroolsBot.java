@@ -11,10 +11,8 @@ public class DroolsBot {
 	public DroolsBot(IBotHack bothack) {
 		KieContainer kieContainer = KieServices.Factory.get().getKieClasspathContainer();
 		if (kieContainer.verify().hasMessages(Level.ERROR)) {
-			System.exit(1);
 			throw new IllegalStateException("KJAR build Failed " + kieContainer.verify());
 		}
-		
 		
 		bothack.registerHandler(0, new DroolsActionHandler(kieContainer.getKieBase()));
 	}
