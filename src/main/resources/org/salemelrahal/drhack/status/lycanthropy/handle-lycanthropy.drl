@@ -11,14 +11,6 @@ import bothack.bot.items.ItemType;
 
 global org.slf4j.Logger logger;
 
-rule "Recognize lycanthropy"
-when
-	IGame($player : player, player.hasLycantrophy())
-then
-	insertLogical(new Lycanthropic());
-end
-
-
 rule "Eat sprig of wolfsbane when lycanthropic"
 when
 	IGame()

@@ -10,8 +10,18 @@ import org.salemelrahal.drhack.action.PrioritizedAction;
 import org.salemelrahal.drhack.item.ItemInInventory;
 import org.salemelrahal.drhack.item.ItemOnTile;
 import org.salemelrahal.drhack.state.LowHealth;
+import org.salemelrahal.drhack.state.MediumHealth;
+import org.salemelrahal.drhack.state.Panic;
 
 global org.slf4j.Logger logger;
+
+
+rule "Mark medium health"
+when
+	IGame($player : player, player.HP() < 10 || (((double)player.HP())/player.maxHP()) < .75)
+then
+	insertLogical(new MediumHealth());
+end
 
 rule "Mark low health"
 when
@@ -20,23 +30,9 @@ then
 	insertLogical(new LowHealth());
 end
 
-rule "Debug low health"
+rule "Mark panic"
 when
-	IGame($player : player, player.HP() < 10)
+	IGame($player : player, player.HP() < 5 || (((double)player.HP())/player.maxHP()) < .25)
 then
-	logger.info("player has less than ten health " + $player.HP() + "," + $player.maxHP());
-end
-
-rule "Debug low health2"
-when
-	IGame($player : player, (((double)player.HP())/player.maxHP()) < .45)
-then
-	logger.info("player has less 45% health " + $player.HP() + "," + $player.maxHP() );
-end
-
-rule "Healthy"
-when
-	IGame($player : player, player.HP() >= 10 && (((double)player.HP())/player.maxHP()) >= .45)
-then
-	logger.info("player is healthy " + $player.HP() + "," + $player.maxHP() );
+	insertLogical(new Panic());
 end

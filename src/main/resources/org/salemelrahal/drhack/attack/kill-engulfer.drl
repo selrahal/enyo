@@ -14,5 +14,5 @@ rule "Engulfed"
 when
 	$game : IGame($player : player, player.isEngulfed())
 then
-	insertLogical(PrioritizedAction.create(10 , Actions.Move(Direction.E), "moving to attack engulfer"));
+	insertLogical(PrioritizedAction.create(30 , Actions.Move(Direction.E), "moving to attack engulfer"));
 end

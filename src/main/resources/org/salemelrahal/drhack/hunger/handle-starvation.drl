@@ -16,7 +16,7 @@ global org.slf4j.Logger logger;
 rule "Eat food in inventory when weak"
 when
 	$game : IGame($player : player, player.hunger() == Hunger.WEAK)
-	ItemInInventory($slot : slot, $item : item, $player.canEat(item))
+	ItemInInventory($slot : slot, $item : item, $player.canEat(item), !item.name().contains("tin"))
 then
 	insert(PrioritizedAction.create(20 , Actions.Eat($slot), "eating " + $item.name() + " in slot " + $slot + " because weak"));
 end
@@ -31,7 +31,7 @@ end
 rule "Eat food outside of a shop"
 when
 	IGame($player : player, player.hunger() != Hunger.SATIATED)
-	ItemOnTile($corpse : item, $player.canEat(item), !item.isCorpse()) //refactor this corpse logic
+	ItemOnTile($corpse : item, $player.canEat(item), !item.isCorpse(), item.name() != "tin") //refactor this corpse logic, and tin logic
 	not InShop()
 then
 	insert(PrioritizedAction.create(2 , Actions.Eat($corpse.label()), "eating edible item outside of a shop, " + $corpse.type().name() + "[" + $corpse.name() + "]"));

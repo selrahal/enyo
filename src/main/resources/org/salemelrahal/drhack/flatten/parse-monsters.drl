@@ -13,7 +13,8 @@ when
 	$game : IGame($player : player)
 	$monster : IMonster( !this.isPeaceful(), !this.isFriendly(), !Position.areAdjacent($player, this)) from $game.currentLevel.monsters.values
 then
-	insertLogical(new Enemy($monster, false));
+	logger.info("Inserting non-adjacent monster " + ($monster.type() == null ? "?" : $monster.type().name()));
+	insertLogical(new Enemy($game, $monster, false));
 end
 
 
@@ -22,5 +23,6 @@ when
 	$game : IGame($player : player)
 	$monster : IMonster( !this.isPeaceful(), !this.isFriendly(), Position.areAdjacent($player, this)) from $game.currentLevel.monsters.values
 then
-	insertLogical(new Enemy($monster, true));
+	logger.info("Inserting adjacent monster " + ($monster.type() == null ? "?" : $monster.type().name()));
+	insertLogical(new Enemy($game, $monster, true));
 end

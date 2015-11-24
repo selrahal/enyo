@@ -13,22 +13,20 @@ global org.slf4j.Logger logger;
 
 rule "Mark adjacent enemy"
 when
-	$game : IGame($player : player)
-	$enemy : Enemy($monster : target, isAdjacent(), !isMarked(), target.type().name() != "floating eye")
+	$enemy : Enemy($monster : target, !isMarked(), getName() != "floating eye")
 then
 	modify ($enemy) {
 		setMarked(true);
 	}
 end
 
-rule "Mark non adjacent enemy when there are no adjacent enemies"
+
+
+rule "Mark floating eye as ranged (adjacent or not)"
 when
-	$game : IGame($player : player)
-	$enemy : Enemy($monster : target, !isAdjacent(), !isMarked(), target.type().name() != "floating eye")
-	not Enemy(isAdjacent(), target.type().name() != "floating eye")
+	$enemy : Enemy($monster : target, !isRangeMarked(), getName() == "floating eye")
 then
 	modify ($enemy) {
-		setMarked(true);
+		setRangeMarked(true);
 	}
 end
-

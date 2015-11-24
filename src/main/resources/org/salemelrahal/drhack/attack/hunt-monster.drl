@@ -7,16 +7,12 @@ import bothack.actions.Actions;
 import bothack.bot.Direction;
 import org.salemelrahal.drhack.action.PrioritizedAction;
 import bothack.bot.dungeon.Feature;
-import bothack.actions.Navigation;
-
-
 
 global org.slf4j.Logger logger;
 
 rule "Move towards marked enemy that is not adjacent"
 when
-	$game : IGame($player : player, currentLevel.at(player).feature() != Feature.DOOR_OPEN)
-	Enemy($monster : target, isMarked(), !isAdjacent())
+	Enemy($monster : target, isMarked(), !isAdjacent(), $name : getName(), $path : getPathTo() != null) //monsters seen via telepathy might not have a pathTo
 then
-	insertLogical(PrioritizedAction.create(8 , Navigation.navigate($game, $monster).step(), "move towards monster " + $monster.type().name()));
+	insertLogical(PrioritizedAction.create(8 , $path.step(), "move towards monster " + $name));
 end

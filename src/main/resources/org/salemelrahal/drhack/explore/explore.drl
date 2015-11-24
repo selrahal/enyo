@@ -10,6 +10,7 @@ import bothack.bot.Hunger;
 import bothack.bot.dungeon.Branch;
 import org.salemelrahal.drhack.action.PrioritizedAction;
 import org.salemelrahal.drhack.util.MapUtil;
+import org.salemelrahal.drhack.item.ItemInInventory;
 
 global org.slf4j.Logger logger;
 
@@ -26,4 +27,3 @@ when
 then
 	insertLogical(PrioritizedAction.create(1 ,ActionsComplex.doSokoban($game), "Doing sokoban branch by default...."));
 end
-

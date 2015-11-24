@@ -11,11 +11,16 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.ObjectFilter;
 import org.salemelrahal.drhack.action.PrioritizedAction;
 import org.salemelrahal.drhack.action.PrioritizedActionComparator;
+import org.salemelrahal.drhack.fact.PathToAdvantageousTile;
+import org.salemelrahal.drhack.fact.PathToFountainTile;
+import org.salemelrahal.drhack.fact.PathToGoldTile;
+import org.salemelrahal.drhack.util.MapUtil;
 import org.salemelrahal.drhack.util.RuleNameLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bothack.actions.IAction;
+import bothack.actions.Navigation;
 import bothack.bot.IGame;
 import bothack.prompts.IActionHandler;
 
@@ -30,9 +35,12 @@ public class DroolsActionHandler implements IActionHandler {
 
 	public IAction chooseAction(IGame gamestate) {
 		KieSession kieSession = kieBase.newKieSession();
-//		kieSession.addEventListener(new RuleNameLogger(logger));
+		kieSession.addEventListener(new RuleNameLogger(logger));
 		kieSession.setGlobal("logger", logger);
 		kieSession.insert(gamestate);
+		kieSession.insert(new PathToAdvantageousTile(Navigation.navigate(gamestate, MapUtil.ADVANTAGEOUS_TILE(gamestate))));
+		kieSession.insert(new PathToFountainTile(Navigation.navigate(gamestate, MapUtil.FOUNTAIN(gamestate))));
+		kieSession.insert(new PathToGoldTile(Navigation.navigate(gamestate, MapUtil.GOLD_TILE)));
 		kieSession.fireAllRules();
 		ObjectFilter actionFilter = new ClassObjectFilter(PrioritizedAction.class);
 		Collection<?> facts = kieSession.getObjects(actionFilter);

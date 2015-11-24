@@ -1,0 +1,40 @@
+package org.salemelrahal.drhack.explore;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.actions.IAction;
+import bothack.actions.Navigation;
+import bothack.actions.Navigation.IPath;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.dungeon.Branch;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.util.MapUtil;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.state.OnFountain;
+import org.salemelrahal.drhack.fact.PathToFountainTile;
+
+global org.slf4j.Logger logger;
+
+
+rule "Seek Fountain for Excalibur"
+when
+	$game : IGame($player : player, player.experienceLevel() > 5)
+	not OnFountain()
+	not ItemInInventory(item.name().contains("Excalibur"))
+	ItemInInventory($slot : slot, $item : item, $item.name().contains("long sword"))
+	PathToFountainTile($path : path != null)
+then
+	insertLogical(PrioritizedAction.create(2 , $path.step(), "Navigating for excalibur"));
+end
+
+
+rule "Get Excalibur"
+when
+	$game : IGame($player : player, player.experienceLevel() > 5)
+	OnFountain()
+	not ItemInInventory(item.name().contains("Excalibur"))
+	ItemInInventory($slot : slot, $item : item, $item.name().contains("long sword"))
+then
+	insertLogical(PrioritizedAction.create(3 ,Actions.Dip($slot, '.'), "Dipping for excalibur"));
+end

@@ -4,10 +4,81 @@ import bothack.bot.IGame;
 import bothack.bot.dungeon.RoomType;
 import org.salemelrahal.drhack.state.InShop;
 
-rule "Identify shop"
+global org.slf4j.Logger logger;
+
+rule "Identify unknown shop"
 when
-	$game : IGame( $tile : currentLevel.at(player))
-	eval($tile.room() == RoomType.SHOP)
+	$game : IGame(RoomType.SHOP.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify potion shop"
+when
+	$game : IGame(RoomType.POTION.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify general shop"
+when
+	$game : IGame(RoomType.GENERAL.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify armor shop"
+when
+	$game : IGame(RoomType.ARMOR.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify book shop"
+when
+	$game : IGame(RoomType.BOOK.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify weapon shop"
+when
+	$game : IGame(RoomType.WEAPON.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify food shop"
+when
+	$game : IGame(RoomType.FOOD.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify gem shop"
+when
+	$game : IGame(RoomType.GEM.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify wand shop"
+when
+	$game : IGame(RoomType.WAND.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify tool shop"
+when
+	$game : IGame(RoomType.TOOL.equals(currentLevel.at(player).room()))
+then
+	insert(new InShop());
+end
+
+rule "Identify light shop"
+when
+	$game : IGame(RoomType.LIGHT.equals(currentLevel.at(player).room()))
 then
 	insert(new InShop());
 end

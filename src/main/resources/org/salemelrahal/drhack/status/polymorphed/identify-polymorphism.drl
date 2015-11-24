@@ -15,12 +15,3 @@ when
 then
 	insertLogical(new Polymorphed($player.polymorphed()));
 end
-
-
-rule "Wait when polymorphed"
-when
-	IGame($player : player)
-	Polymorphed() //TODO: care about type
-then
-	insertLogical(PrioritizedAction.create(13 , Actions.Wait(), "waiting to not be polymorphed"));
-end

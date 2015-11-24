@@ -1,0 +1,24 @@
+package org.salemelrahal.drhack.hunger;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.item.ItemOnTile;
+import org.salemelrahal.drhack.state.OnElbereth;
+import org.salemelrahal.drhack.state.OnEngravableTile;
+import org.salemelrahal.drhack.state.OnFountain;
+import bothack.bot.dungeon.Feature;
+
+global org.slf4j.Logger logger;
+
+rule "Parse Fountain Tile"
+when
+	IGame(currentLevel.at(player).feature() == Feature.FOUNTAIN)
+then
+	insertLogical(new OnFountain());
+end

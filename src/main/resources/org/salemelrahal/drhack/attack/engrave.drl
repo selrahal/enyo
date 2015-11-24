@@ -1,0 +1,42 @@
+package org.salemelrahal.drhack.attack;
+
+import bothack.actions.Actions;
+import org.salemelrahal.drhack.enemy.Enemy;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.Direction;
+import bothack.bot.monsters.IMonster;
+import bothack.bot.Position;
+import org.salemelrahal.drhack.action.PrioritizedAction;
+import org.salemelrahal.drhack.util.MapUtil;
+import org.salemelrahal.drhack.state.OnElbereth;
+import org.salemelrahal.drhack.state.OnEngravableTile;
+import org.salemelrahal.drhack.item.ItemInInventory;
+import org.salemelrahal.drhack.fact.PathToAdvantageousTile;
+
+global org.slf4j.Logger logger;
+
+rule "Engrave with finger proactively when about to fact many enemies" 
+when
+	$first : Enemy(isAwake(), respectsElbereth())
+	Enemy(isAwake(), respectsElbereth(),this != $first)
+	not OnElbereth()
+	OnEngravableTile()
+	IGame(canEngrave())
+	not ItemInInventory($slot : slot, item.name().contains("wand of fire"))
+then
+	insertLogical(PrioritizedAction.create(23 , Actions.EngraveOverwriting('-', "Elbereth"), "Engraving elbereth with finger proactively "));
+end
+
+
+rule "Engrave with WoF proactively when about to fact many enemies" 
+when
+	$first : Enemy(isAwake(), respectsElbereth())
+	Enemy(isAwake(), respectsElbereth(),this != $first)
+	not OnElbereth()
+	OnEngravableTile()
+	IGame(canEngrave())
+	ItemInInventory($slot : slot, item.name().contains("wand of fire"))
+then
+	insertLogical(PrioritizedAction.create(24 , Actions.EngraveOverwriting($slot, "Elbereth"), "Engraving elbereth with wand of fire proactively"));
+end

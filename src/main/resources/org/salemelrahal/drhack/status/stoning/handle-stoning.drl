@@ -16,7 +16,7 @@ global org.slf4j.Logger logger;
 
 rule "Eat lizard corpse when stoning"
 when
-	IGame(player.isStoning())
+	Stoning()
 	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("lizard corpse"))
 then
 	insertLogical(PrioritizedAction.create(101 , Actions.Eat($slot), "eating lizard corpse because stoning"));
@@ -25,7 +25,8 @@ end
 
 rule "Pray when stoning"
 when
-	IGame(player.isStoning(), canPray())
+	IGame(canPray())
+	Stoning()
 then
 	insertLogical(PrioritizedAction.create(100 , Actions.Pray(), "praying because stoning"));
 end

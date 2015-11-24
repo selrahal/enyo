@@ -15,12 +15,3 @@ when
 then
 	insert(new Blind());
 end
-
-
-rule "Wait when blind"
-when
-	IGame($player : player)
-	Blind() //TODO: care about type (external or not)
-then
-	insert(PrioritizedAction.create(13 , Actions.Wait(), "waiting to not be blind"));
-end
