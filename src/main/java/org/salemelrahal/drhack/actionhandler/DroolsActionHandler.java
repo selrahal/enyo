@@ -14,6 +14,7 @@ import org.salemelrahal.drhack.action.PrioritizedActionComparator;
 import org.salemelrahal.drhack.fact.PathToAdvantageousTile;
 import org.salemelrahal.drhack.fact.PathToFountainTile;
 import org.salemelrahal.drhack.fact.PathToGoldTile;
+import org.salemelrahal.drhack.fact.Persistent;
 import org.salemelrahal.drhack.util.MapUtil;
 import org.salemelrahal.drhack.util.RuleNameLogger;
 import org.slf4j.Logger;
@@ -28,6 +29,10 @@ public class DroolsActionHandler implements IActionHandler {
 	private final KieBase kieBase;
 	private final Logger logger;
 	
+	private Collection<Persistent> persistentFacts = new ArrayList<Persistent>(0);
+	private static final ObjectFilter PERSISTABLE = new ClassObjectFilter(Persistent.class);
+	private static final ObjectFilter ACTIONS = new ClassObjectFilter(PrioritizedAction.class);
+	
 	public DroolsActionHandler(KieBase kieBase) {
 		this.kieBase = kieBase;
 		this.logger = LoggerFactory.getLogger("drools");
@@ -35,35 +40,63 @@ public class DroolsActionHandler implements IActionHandler {
 
 	public IAction chooseAction(IGame gamestate) {
 		KieSession kieSession = kieBase.newKieSession();
+		this.initKieSession(kieSession, gamestate);
+		kieSession.fireAllRules();
+		List<PrioritizedAction> actions = this.getActions(kieSession);
+		this.persistentFacts = this.getPersistentFacts(kieSession);
+		
+		
+		if (actions.size() > 1) {
+			for (PrioritizedAction action : actions) {
+				logger.info(action.getPriority() + " - " + action.getAction() + " - " + action.getReason());
+			}
+		}
+		PrioritizedAction toReturn = actions.get(0);
+		logger.info("Rule set chose " + toReturn.getAction() + " - " + toReturn.getReason());
+		
+		
+		this.cleanupKieSession(kieSession);
+		
+		return toReturn.getAction();
+	}
+	
+	private void initKieSession(KieSession kieSession, IGame gamestate) {
 		kieSession.addEventListener(new RuleNameLogger(logger));
 		kieSession.setGlobal("logger", logger);
+		for (Persistent fact : this.persistentFacts) {
+			logger.info("Adding persistent fact=" + fact);
+			kieSession.insert(fact);
+		}
 		kieSession.insert(gamestate);
 		kieSession.insert(new PathToAdvantageousTile(Navigation.navigate(gamestate, MapUtil.ADVANTAGEOUS_TILE(gamestate))));
 		kieSession.insert(new PathToFountainTile(Navigation.navigate(gamestate, MapUtil.FOUNTAIN(gamestate))));
 		kieSession.insert(new PathToGoldTile(Navigation.navigate(gamestate, MapUtil.GOLD_TILE)));
-		kieSession.fireAllRules();
-		ObjectFilter actionFilter = new ClassObjectFilter(PrioritizedAction.class);
-		Collection<?> facts = kieSession.getObjects(actionFilter);
-		
-		if (facts.size() == 0) {
-			logger.info("Rules derived no actions");
-			return null;
-		} else {
-			List<PrioritizedAction> actions = new ArrayList<PrioritizedAction>(facts.size());
-			for (Object fact : facts) {
-				actions.add((PrioritizedAction)fact);
-			}
-			Collections.sort(actions, new PrioritizedActionComparator());
-			if (actions.size() > 1) {
-				for (PrioritizedAction action : actions) {
-					logger.info(action.getPriority() + " - " + action.getAction() + " - " + action.getReason());
-				}
-			}
-			PrioritizedAction toReturn = actions.get(0);
-			logger.info("Rule set chose " + toReturn.getAction() + " - " + toReturn.getReason());
-			kieSession.dispose();		
-			return toReturn.getAction();
-		}
 	}
+	
+	private void cleanupKieSession(KieSession kieSession) {
+		kieSession.dispose();
+	}
+	
+	private Collection<Persistent> getPersistentFacts(KieSession kieSession) {
+		Collection<?> persistFacts = kieSession.getObjects(PERSISTABLE);
+		List<Persistent> toReturn = new ArrayList<Persistent>(persistFacts.size());
+		for (Object o : persistFacts) {
+			logger.info("Saving persistent fact=" + o);
+			toReturn.add((Persistent)o);
+		}
+		return toReturn;
+	}
+	
+	private List<PrioritizedAction> getActions(KieSession kieSession) {
+		Collection<?> actionFacts = kieSession.getObjects(PERSISTABLE);
+		List<PrioritizedAction> toReturn = new ArrayList<PrioritizedAction>(actionFacts.size());
+		for (Object o : actionFacts) {
+			toReturn.add((PrioritizedAction)o);
+		}
+		Collections.sort(toReturn, new PrioritizedActionComparator());
+		return toReturn;	
+	}
+	
+	
 
 }
