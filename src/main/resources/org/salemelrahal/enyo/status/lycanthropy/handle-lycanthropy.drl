@@ -1,0 +1,36 @@
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.enyo.state.Lycanthropic;
+import org.salemelrahal.enyo.item.ItemInInventory;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+import bothack.bot.items.ItemType;
+
+global org.slf4j.Logger logger;
+
+rule "Eat sprig of wolfsbane when lycanthropic"
+when
+	IGame()
+	Lycanthropic()
+	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("sprig of wolfsbane"))
+then
+	insertLogical(PrioritizedAction.create(11 , Actions.Eat($slot), "eating sprig of wolfsbane because stoning"));
+end
+
+
+
+rule "Pray when lycanthropic"
+when
+	IGame(canPray())
+	Lycanthropic()
+	not ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("sprig of wolfsbane"))
+then
+	insertLogical(PrioritizedAction.create(10 , Actions.Pray(), "praying because lycanthropic"));
+end
+
+
+
+

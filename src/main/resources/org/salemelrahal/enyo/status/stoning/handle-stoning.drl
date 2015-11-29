@@ -1,0 +1,32 @@
+package org.salemelrahal.enyo.hunger;
+
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.item.ItemInInventory;
+import org.salemelrahal.enyo.item.ItemOnTile;
+import org.salemelrahal.enyo.state.InShop;
+import bothack.bot.items.ItemType;
+
+global org.slf4j.Logger logger;
+
+rule "Eat lizard corpse when stoning"
+when
+	Stoning()
+	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("lizard corpse"))
+then
+	insertLogical(PrioritizedAction.create(101 , Actions.Eat($slot), "eating lizard corpse because stoning"));
+end
+
+
+rule "Pray when stoning"
+when
+	IGame(canPray())
+	Stoning()
+then
+	insertLogical(PrioritizedAction.create(100 , Actions.Pray(), "praying because stoning"));
+end

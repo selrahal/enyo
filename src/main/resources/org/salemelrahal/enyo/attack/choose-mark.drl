@@ -1,0 +1,32 @@
+package org.salemelrahal.enyo.attack;
+
+import bothack.actions.Actions;
+import org.salemelrahal.enyo.enemy.Enemy;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.Direction;
+import bothack.bot.monsters.IMonster;
+import bothack.bot.Position;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Mark adjacent enemy"
+when
+	$enemy : Enemy($monster : target, !isMarked(), getName() != "floating eye")
+then
+	modify ($enemy) {
+		setMarked(true);
+	}
+end
+
+
+
+rule "Mark floating eye as ranged (adjacent or not)"
+when
+	$enemy : Enemy($monster : target, !isRangeMarked(), getName() == "floating eye")
+then
+	modify ($enemy) {
+		setRangeMarked(true);
+	}
+end

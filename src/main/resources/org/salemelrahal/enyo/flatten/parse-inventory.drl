@@ -1,0 +1,17 @@
+package org.salemelrahal.enyo.flatten;
+
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import java.util.Map.Entry;
+import org.salemelrahal.enyo.item.ItemInInventory;
+
+global org.slf4j.Logger logger;
+
+rule "Insert inventory"
+when
+	IGame($inventory : player.inventory)
+	Entry($key : key, $value : value) from $inventory.entrySet()
+then
+    logger.info("-" + ((IItem)$value).name() + " t["+((IItem)$value).type().name()+"]");
+	insert(ItemInInventory.create((Character) $key, (IItem) $value));
+end

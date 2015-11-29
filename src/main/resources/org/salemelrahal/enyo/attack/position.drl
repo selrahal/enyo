@@ -1,0 +1,38 @@
+package org.salemelrahal.enyo.attack;
+
+import bothack.actions.Actions;
+import org.salemelrahal.enyo.enemy.Enemy;
+import bothack.bot.IGame;
+import bothack.bot.Hunger;
+import bothack.bot.Direction;
+import bothack.bot.monsters.IMonster;
+import bothack.bot.Position;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.util.MapUtil;
+import org.salemelrahal.enyo.state.OnElbereth;
+import org.salemelrahal.enyo.state.OnEngravableTile;
+import org.salemelrahal.enyo.item.ItemInInventory;
+import org.salemelrahal.enyo.fact.PathToAdvantageousTile;
+import org.salemelrahal.enyo.state.OnAdvantageousTile;
+
+global org.slf4j.Logger logger;
+
+
+rule "Mark advantageous tile"
+when
+	IGame(MapUtil.isAdvantageous(this, currentLevel.at(player)))
+then
+	insertLogical(new OnAdvantageousTile());
+end
+
+
+rule "Move to advantageous tile when about to face many enemies" 
+when
+	$first : Enemy(isAwake())
+	Enemy(isAwake(),  this != $first)
+	not OnElbereth()
+	not OnAdvantageousTile()
+	PathToAdvantageousTile($path : path != null)
+then
+	insertLogical(PrioritizedAction.create(17 , $path.step(), "move towards advantageous tile " + $path.step()));
+end

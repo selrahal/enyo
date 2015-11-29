@@ -1,0 +1,28 @@
+package org.salemelrahal.enyo.pickup;
+
+import bothack.actions.Actions;
+import bothack.actions.IAction;
+import bothack.actions.NavOption;
+import bothack.bot.IGame;
+import bothack.bot.dungeon.RoomType;
+import bothack.bot.Hunger;
+import bothack.bot.Direction;
+import bothack.bot.monsters.IMonster;
+import bothack.bot.Position;
+import bothack.bot.items.IItemType;
+import bothack.bot.items.ItemType;
+import bothack.bot.items.IItem;
+import org.salemelrahal.enyo.util.MapUtil;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.item.ItemOnTile;
+import org.salemelrahal.enyo.state.InShop;
+
+global org.slf4j.Logger logger;
+
+rule "Pick up potion outside of a shop"
+when
+	ItemOnTile($scroll : item,  item.name().contains("potion"))
+	not InShop()
+then
+	insertLogical(PrioritizedAction.create(2 , Actions.PickUp($scroll.label()), "picking up potion outside of a shop"));
+end

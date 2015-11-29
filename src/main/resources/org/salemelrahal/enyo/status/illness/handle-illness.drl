@@ -1,0 +1,18 @@
+import bothack.actions.Actions;
+import bothack.actions.ActionsComplex;
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import bothack.bot.Hunger;
+import java.util.Map.Entry;
+import org.salemelrahal.enyo.state.Ill;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+
+global org.slf4j.Logger logger;
+
+rule "Pray when poisoned"
+when
+	IGame($player : player)
+	Ill()
+then
+	insert(PrioritizedAction.create(13 , Actions.Pray(), "praying to not be ill"));
+end

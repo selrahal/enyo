@@ -1,0 +1,16 @@
+package org.salemelrahal.enyo.flatten;
+
+import bothack.bot.IGame;
+import bothack.bot.items.IItem;
+import java.util.Map.Entry;
+import org.salemelrahal.enyo.item.ItemInInventory;
+import org.salemelrahal.enyo.item.RangedWeapon;
+
+global org.slf4j.Logger logger;
+
+rule "Parse Ranged Weapon"
+when
+	ItemInInventory($slot : slot, $item : item, $item.name().contains("dagger"))
+then
+	insert(new RangedWeapon($slot));
+end

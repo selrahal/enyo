@@ -1,0 +1,18 @@
+package org.salemelrahal.enyo.attack;
+
+import bothack.bot.IGame;
+import org.salemelrahal.enyo.enemy.Enemy;
+import bothack.bot.monsters.IMonster;
+import bothack.actions.Actions;
+import bothack.bot.Direction;
+import org.salemelrahal.enyo.action.PrioritizedAction;
+import bothack.bot.dungeon.Feature;
+
+global org.slf4j.Logger logger;
+
+rule "Move towards marked enemy that is not adjacent"
+when
+	Enemy($monster : target, isMarked(), !isAdjacent(), $name : getName(), $path : getPathTo() != null) //monsters seen via telepathy might not have a pathTo
+then
+	insertLogical(PrioritizedAction.create(8 , $path.step(), "move towards monster " + $name));
+end

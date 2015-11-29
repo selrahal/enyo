@@ -1,5 +1,5 @@
 {
- :javabot "org.salemelrahal.drhack.DroolsBot"
+ :javabot "org.salemelrahal.enyo.DroolsBot"
  :interface :telnet
  :menubot "bothack.bots.dgl-menu"
  :host "nethack.alt.org"
