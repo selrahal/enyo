@@ -2,15 +2,13 @@ package org.salemelrahal.enyo.actionhandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.kie.api.KieBase;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.ObjectFilter;
-import org.salemelrahal.enyo.action.PrioritizedAction;
-import org.salemelrahal.enyo.action.PrioritizedActionComparator;
+import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.fact.PathToAdvantageousTile;
 import org.salemelrahal.enyo.fact.PathToFountainTile;
 import org.salemelrahal.enyo.fact.PathToGoldTile;
@@ -31,7 +29,7 @@ public class DroolsActionHandler implements IActionHandler {
 	
 	private Collection<Persistent> persistentFacts = new ArrayList<Persistent>(0);
 	private static final ObjectFilter PERSISTABLE = new ClassObjectFilter(Persistent.class);
-	private static final ObjectFilter ACTIONS = new ClassObjectFilter(PrioritizedAction.class);
+	private static final ObjectFilter ACTIONS = new ClassObjectFilter(ReasonedAction.class);
 	
 	public DroolsActionHandler(KieBase kieBase) {
 		this.kieBase = kieBase;
@@ -42,22 +40,14 @@ public class DroolsActionHandler implements IActionHandler {
 		KieSession kieSession = kieBase.newKieSession();
 		this.initKieSession(kieSession, gamestate);
 		kieSession.fireAllRules();
-		List<PrioritizedAction> actions = this.getActions(kieSession);
+		ReasonedAction action = this.getReasonedAction(kieSession);
 		this.persistentFacts = this.getPersistentFacts(kieSession);
 		
-		
-		if (actions.size() > 1) {
-			for (PrioritizedAction action : actions) {
-				logger.info(action.getPriority() + " - " + action.getAction() + " - " + action.getReason());
-			}
-		}
-		PrioritizedAction toReturn = actions.get(0);
-		logger.info("Rule set chose " + toReturn.getAction() + " - " + toReturn.getReason());
-		
+		logger.info("Rule set chose " + action);
 		
 		this.cleanupKieSession(kieSession);
 		
-		return toReturn.getAction();
+		return action.getAction();
 	}
 	
 	private void initKieSession(KieSession kieSession, IGame gamestate) {
@@ -87,14 +77,19 @@ public class DroolsActionHandler implements IActionHandler {
 		return toReturn;
 	}
 	
-	private List<PrioritizedAction> getActions(KieSession kieSession) {
-		Collection<?> actionFacts = kieSession.getObjects(PERSISTABLE);
-		List<PrioritizedAction> toReturn = new ArrayList<PrioritizedAction>(actionFacts.size());
+	private ReasonedAction getReasonedAction(KieSession kieSession) {
+		Collection<?> actionFacts = kieSession.getObjects(ACTIONS);
+		List<ReasonedAction> toReturn = new ArrayList<ReasonedAction>(actionFacts.size());
 		for (Object o : actionFacts) {
-			toReturn.add((PrioritizedAction)o);
+			toReturn.add((ReasonedAction)o);
 		}
-		Collections.sort(toReturn, new PrioritizedActionComparator());
-		return toReturn;	
+		if (toReturn.size() != 1) {
+			logger.error("Rule set chose more than one action, choosing arbitrarely!");
+			for (ReasonedAction action : toReturn) {
+				logger.info(action.getAction() + " - " + action.getReason());
+			}
+		}
+		return toReturn.get(0);	
 	}
 	
 	

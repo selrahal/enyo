@@ -6,7 +6,7 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.OnElbereth;

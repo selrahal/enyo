@@ -6,7 +6,7 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.Panic;
@@ -23,5 +23,5 @@ when
 	Enemy($monster : target, isMarked())
 	ItemInInventory($slot : slot, $item : item, $item.name().contains("wand"), $item.type() == null)
 then
-	insertLogical(PrioritizedAction.create(15 , Actions.ZapWandAt($slot, Direction.towards($player, $monster)), "zapping adjacent marked monster " + $monster.type().name() + " with " + $item.name()));
+	insertLogical(ReasonedAction.create(Actions.ZapWandAt($slot, Direction.towards($player, $monster)), "zapping adjacent marked monster " + $monster.type().name() + " with " + $item.name()));
 end

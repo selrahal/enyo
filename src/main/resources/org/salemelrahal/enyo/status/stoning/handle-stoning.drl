@@ -6,7 +6,7 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
@@ -19,7 +19,7 @@ when
 	Stoning()
 	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("lizard corpse"))
 then
-	insertLogical(PrioritizedAction.create(101 , Actions.Eat($slot), "eating lizard corpse because stoning"));
+	insertLogical(ReasonedAction.create(Actions.Eat($slot), "eating lizard corpse because stoning"));
 end
 
 
@@ -28,5 +28,5 @@ when
 	IGame(canPray())
 	Stoning()
 then
-	insertLogical(PrioritizedAction.create(100 , Actions.Pray(), "praying because stoning"));
+	insertLogical(ReasonedAction.create(Actions.Pray(), "praying because stoning"));
 end

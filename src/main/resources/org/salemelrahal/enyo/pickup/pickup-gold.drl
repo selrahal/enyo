@@ -1,7 +1,7 @@
 package org.salemelrahal.enyo.pickup;
 
 import bothack.bot.items.ItemType;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
 
@@ -12,5 +12,5 @@ when
 	ItemOnTile($gold : item,  item.type() == ItemType.byName("gold piece"))
 	not InShop()
 then
-	insertLogical(PrioritizedAction.create(1 , Actions.PickUp($gold.label()), "picking up gold"));
+	insertLogical(ReasonedAction.create(Actions.PickUp($gold.label()), "picking up gold"));
 end

@@ -5,7 +5,7 @@ import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Blind;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 
 global org.slf4j.Logger logger;
 
@@ -14,5 +14,5 @@ when
 	IGame($player : player)
 	Blind() //TODO: care about type (external or not)
 then
-	insert(PrioritizedAction.create(9 , Actions.Wait(), "waiting to not be blind"));
+	insert(ReasonedAction.create(Actions.Wait(), "waiting to not be blind"));
 end

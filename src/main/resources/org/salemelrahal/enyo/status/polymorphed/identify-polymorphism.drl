@@ -5,7 +5,7 @@ import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Polymorphed;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 
 global org.slf4j.Logger logger;
 

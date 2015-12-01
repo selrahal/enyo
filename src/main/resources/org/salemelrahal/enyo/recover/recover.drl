@@ -6,7 +6,7 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.PrioritizedAction;
+import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.LowHealth;
@@ -22,7 +22,7 @@ when
 	MediumHealth()
 	not Enemy()
 then
-	insertLogical(PrioritizedAction.create(20 , Actions.Search(), "waiting to heal up "));
+	insertLogical(ReasonedAction.create(Actions.Search(), "waiting to heal up "));
 end
 
 rule "Drink potion when in trouble"
@@ -31,7 +31,7 @@ when
 	Enemy(!respectsElbereth())
 	ItemInInventory($slot : slot, item.name().contains("potion of full healing"), !BUC.CURSED.equals(item.buc()))
 then
-	insertLogical(PrioritizedAction.create(22 , Actions.Quaff($slot), "quaffing !c||u potion of full healing"));
+	insertLogical(ReasonedAction.create(Actions.Quaff($slot), "quaffing !c||u potion of full healing"));
 end
 
 
@@ -41,7 +41,7 @@ when
 	LowHealth()
 	not Enemy(!respectsElbereth())
 then
-	insertLogical(PrioritizedAction.create(21 , Actions.Search(), "waiting to heal up, on elbereth "));
+	insertLogical(ReasonedAction.create(Actions.Search(), "waiting to heal up, on elbereth "));
 end
 
 rule "Engrave with wand of fire when in danger"
@@ -54,7 +54,7 @@ when
 	Enemy(respectsElbereth())
 	not Enemy(!respectsElbereth())
 then
-	insertLogical(PrioritizedAction.create(24 , Actions.EngraveOverwriting($slot, "Elbereth"), "Engraving elbereth with wand of fire "));
+	insertLogical(ReasonedAction.create(Actions.EngraveOverwriting($slot, "Elbereth"), "Engraving elbereth with wand of fire "));
 end
 
 
@@ -67,6 +67,6 @@ when
 	Enemy(respectsElbereth())
 	not Enemy(!respectsElbereth())
 then
-	insertLogical(PrioritizedAction.create(23 , Actions.EngraveOverwriting('-', "Elbereth"), "Engraving elbereth with finger "));
+	insertLogical(ReasonedAction.create(Actions.EngraveOverwriting('-', "Elbereth"), "Engraving elbereth with finger "));
 end
 
