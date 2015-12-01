@@ -1,4 +1,4 @@
-package org.salemelrahal.enyo.explore;
+package org.salemelrahal.enyo.excalibur;
 
 import bothack.actions.Actions;
 import bothack.actions.ActionsComplex;
@@ -8,11 +8,13 @@ import bothack.actions.Navigation.IPath;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
 import bothack.bot.dungeon.Branch;
+import org.salemelrahal.enyo.action.Move;
 import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.state.OnFountain;
 import org.salemelrahal.enyo.fact.PathToFountainTile;
+import org.salemelrahal.enyo.action.DipForExcalibur;
 
 global org.slf4j.Logger logger;
 
@@ -25,7 +27,7 @@ when
 	ItemInInventory($slot : slot, $item : item, $item.name().contains("long sword"))
 	PathToFountainTile($path : path != null)
 then
-	insertLogical(ReasonedAction.create($path.step(), "Navigating for excalibur"));
+	insertLogical(ReasonedAction.create(new Move($path), "Navigating for excalibur"));
 end
 
 
@@ -36,5 +38,5 @@ when
 	not ItemInInventory(item.name().contains("Excalibur"))
 	ItemInInventory($slot : slot, $item : item, $item.name().contains("long sword"))
 then
-	insertLogical(ReasonedAction.create(Actions.Dip($slot, '.'), "Dipping for excalibur"));
+	insertLogical(ReasonedAction.create(new DipForExcalibur($slot), "Dipping for excalibur"));
 end

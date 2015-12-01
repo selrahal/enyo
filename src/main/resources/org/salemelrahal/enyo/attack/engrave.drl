@@ -1,6 +1,6 @@
 package org.salemelrahal.enyo.attack;
 
-import bothack.actions.Actions;
+import org.salemelrahal.enyo.action.Engrave;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
@@ -25,7 +25,7 @@ when
 	IGame(canEngrave())
 	not ItemInInventory($slot : slot, item.name().contains("wand of fire"))
 then
-	insertLogical(ReasonedAction.create(Actions.EngraveOverwriting('-', "Elbereth"), "Engraving elbereth with finger proactively "));
+	insertLogical(ReasonedAction.create(new Engrave('-', "Elbereth"), "Engraving elbereth with finger proactively "));
 end
 
 
@@ -38,5 +38,5 @@ when
 	IGame(canEngrave())
 	ItemInInventory($slot : slot, item.name().contains("wand of fire"))
 then
-	insertLogical(ReasonedAction.create(Actions.EngraveOverwriting($slot, "Elbereth"), "Engraving elbereth with wand of fire proactively"));
+	insertLogical(ReasonedAction.create(new Engrave($slot, "Elbereth"), "Engraving elbereth with wand of fire proactively"));
 end

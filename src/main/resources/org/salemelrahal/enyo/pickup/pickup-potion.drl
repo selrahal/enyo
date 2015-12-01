@@ -16,13 +16,14 @@ import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
+import org.salemelrahal.enyo.action.PickUpItem;
 
 global org.slf4j.Logger logger;
 
 rule "Pick up potion outside of a shop"
 when
-	ItemOnTile($scroll : item,  item.name().contains("potion"))
+	ItemOnTile($potion : item,  item.name().contains("potion"))
 	not InShop()
 then
-	insertLogical(ReasonedAction.create(Actions.PickUp($scroll.label()), "picking up potion outside of a shop"));
+	insertLogical(ReasonedAction.create(new PickUpItem($potion), "picking up potion outside of a shop"));
 end

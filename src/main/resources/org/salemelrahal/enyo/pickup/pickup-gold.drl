@@ -4,6 +4,7 @@ import bothack.bot.items.ItemType;
 import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
+import org.salemelrahal.enyo.action.PickUpItem;
 
 global org.slf4j.Logger logger;
 
@@ -12,5 +13,5 @@ when
 	ItemOnTile($gold : item,  item.type() == ItemType.byName("gold piece"))
 	not InShop()
 then
-	insertLogical(ReasonedAction.create(Actions.PickUp($gold.label()), "picking up gold"));
+	insertLogical(ReasonedAction.create(new PickUpItem($gold), "picking up gold"));
 end

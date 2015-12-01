@@ -1,6 +1,7 @@
 package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
+import org.salemelrahal.enyo.action.Move;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
@@ -34,5 +35,6 @@ when
 	not OnAdvantageousTile()
 	PathToAdvantageousTile($path : path != null)
 then
-	insertLogical(ReasonedAction.create($path.step(), "move towards advantageous tile " + $path.step()));
+	//Maybe instead of 'new Move(..)' it should be 'new MoveToAdvantageousTile(...)'
+	insertLogical(ReasonedAction.create(new Move($path), "move towards advantageous tile " + $path.step()));
 end

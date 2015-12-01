@@ -47,7 +47,7 @@ public class DroolsActionHandler implements IActionHandler {
 		
 		this.cleanupKieSession(kieSession);
 		
-		return action.getAction();
+		return action.getDelegate();
 	}
 	
 	private void initKieSession(KieSession kieSession, IGame gamestate) {

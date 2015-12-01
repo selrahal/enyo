@@ -1,3 +1,5 @@
+package org.salemelrahal.enyo.status.lycanthropy;
+
 import bothack.actions.Actions;
 import bothack.actions.ActionsComplex;
 import bothack.bot.IGame;
@@ -8,6 +10,9 @@ import org.salemelrahal.enyo.state.Lycanthropic;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.action.ReasonedAction;
 import bothack.bot.items.ItemType;
+import org.salemelrahal.enyo.action.Pray;
+import org.salemelrahal.enyo.action.Eat;
+
 
 global org.slf4j.Logger logger;
 
@@ -17,7 +22,7 @@ when
 	Lycanthropic()
 	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("sprig of wolfsbane"))
 then
-	insertLogical(ReasonedAction.create(Actions.Eat($slot), "eating sprig of wolfsbane because stoning"));
+	insertLogical(ReasonedAction.create(new Eat($slot), "eating sprig of wolfsbane because stoning"));
 end
 
 
@@ -28,7 +33,7 @@ when
 	Lycanthropic()
 	not ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("sprig of wolfsbane"))
 then
-	insertLogical(ReasonedAction.create(Actions.Pray(), "praying because lycanthropic"));
+	insertLogical(ReasonedAction.create(new Pray(), "praying because lycanthropic"));
 end
 
 

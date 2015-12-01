@@ -1,3 +1,5 @@
+package org.salemelrahal.enyo.status.polymorphed;
+
 import bothack.actions.Actions;
 import bothack.actions.ActionsComplex;
 import bothack.bot.IGame;

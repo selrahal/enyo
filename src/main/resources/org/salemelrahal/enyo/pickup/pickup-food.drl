@@ -16,6 +16,7 @@ import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
+import org.salemelrahal.enyo.action.PickUpItem;
 
 global org.slf4j.Logger logger;
 
@@ -25,7 +26,7 @@ when
 	ItemOnTile($food : item,  item.type() == ItemType.byName("food ration"))
 	not InShop()
 then
-	insertLogical(ReasonedAction.create(Actions.PickUp($food.label()), "picking up food ration outside of a shop"));
+	insertLogical(ReasonedAction.create(new PickUpItem($food), "picking up food ration outside of a shop"));
 end
 
 rule "Pick up lichen corpse outside of a shop"
@@ -33,7 +34,7 @@ when
 	ItemOnTile($corpse : item, item.type() == ItemType.byName("lichen corpse"))
 	not InShop()
 then
-	insertLogical(ReasonedAction.create(Actions.PickUp($corpse.label()), "picking up lichen corpse outside of a shop"));
+	insertLogical(ReasonedAction.create(new PickUpItem($corpse), "picking up lichen corpse outside of a shop"));
 end
 
 rule "Pick up lizard corpse outside of a shop"
@@ -41,5 +42,5 @@ when
 	ItemOnTile($corpse : item, item.type() == ItemType.byName("lizard corpse"))
 	not InShop()
 then
-	insertLogical(ReasonedAction.create(Actions.PickUp($corpse.label()), "picking up lizard corpse outside of a shop"));
+	insertLogical(ReasonedAction.create(new PickUpItem($corpse), "picking up lizard corpse outside of a shop"));
 end

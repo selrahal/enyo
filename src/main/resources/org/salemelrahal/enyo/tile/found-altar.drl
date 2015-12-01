@@ -1,4 +1,4 @@
-package org.salemelrahal.enyo.hunger;
+package org.salemelrahal.enyo.tile;
 
 import bothack.actions.Actions;
 import bothack.actions.ActionsComplex;

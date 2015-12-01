@@ -1,4 +1,4 @@
-package org.salemelrahal.enyo.hunger;
+package org.salemelrahal.enyo.status.stoning;
 
 import bothack.actions.Actions;
 import bothack.actions.ActionsComplex;
@@ -11,6 +11,8 @@ import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
 import bothack.bot.items.ItemType;
+import org.salemelrahal.enyo.action.Eat;
+import org.salemelrahal.enyo.action.Pray;
 
 global org.slf4j.Logger logger;
 
@@ -19,7 +21,7 @@ when
 	Stoning()
 	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("lizard corpse"))
 then
-	insertLogical(ReasonedAction.create(Actions.Eat($slot), "eating lizard corpse because stoning"));
+	insertLogical(ReasonedAction.create(new Eat($slot), "eating lizard corpse because stoning"));
 end
 
 
@@ -28,5 +30,5 @@ when
 	IGame(canPray())
 	Stoning()
 then
-	insertLogical(ReasonedAction.create(Actions.Pray(), "praying because stoning"));
+	insertLogical(ReasonedAction.create(new Pray(), "praying because stoning"));
 end

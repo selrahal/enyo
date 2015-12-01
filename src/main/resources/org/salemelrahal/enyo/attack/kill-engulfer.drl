@@ -1,6 +1,7 @@
 package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
+import org.salemelrahal.enyo.action.Move;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
 import bothack.bot.Direction;
@@ -14,5 +15,5 @@ rule "Engulfed"
 when
 	$game : IGame($player : player, player.isEngulfed())
 then
-	insertLogical(ReasonedAction.create(Actions.Move(Direction.E), "moving to attack engulfer"));
+	insertLogical(ReasonedAction.create(new Move(Direction.E), "moving to attack engulfer"));
 end

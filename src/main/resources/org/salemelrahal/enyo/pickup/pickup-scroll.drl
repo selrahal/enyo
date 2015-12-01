@@ -16,6 +16,7 @@ import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
+import org.salemelrahal.enyo.action.PickUpItem;
 
 global org.slf4j.Logger logger;
 
@@ -24,5 +25,5 @@ when
 	ItemOnTile($scroll : item,  item.name().contains("scroll"))
 	not InShop()
 then
-	insertLogical(ReasonedAction.create(Actions.PickUp($scroll.label()), "picking up scroll outside of a shop"));
+	insertLogical(ReasonedAction.create(new PickUpItem($scroll), "picking up scroll outside of a shop"));
 end
