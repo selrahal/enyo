@@ -6,7 +6,6 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
@@ -20,14 +19,14 @@ when
 	$game : IGame($player : player, player.hunger() == Hunger.WEAK)
 	ItemInInventory($slot : slot, $item : item, $player.canEat(item), !item.name().contains("tin"))
 then
-	insert(ReasonedAction.create(new Eat($slot), "eating " + $item.name() + " in slot " + $slot + " because weak"));
+	insert(new Eat($slot));
 end
 
 rule "Pray when fainting"
 when
 	IGame(player.hunger() == Hunger.FAINTING, canPray())
 then
-	insert(ReasonedAction.create(new Pray(), "praying because fainting"));
+	insert(new Pray());
 end
 
 rule "Eat food outside of a shop"
@@ -36,7 +35,7 @@ when
 	ItemOnTile($corpse : item, $player.canEat(item), !item.isCorpse(), item.name() != "tin") //refactor this corpse logic, and tin logic
 	not InShop()
 then
-	insert(ReasonedAction.create(new Eat($corpse), "eating edible item outside of a shop, " + $corpse.type().name() + "[" + $corpse.name() + "]"));
+	insert(new Eat($corpse));
 end
 
 
@@ -46,5 +45,5 @@ when
 	ItemOnTile($corpse : item, $player.canEat(item), item.isCorpse(), $game.isCorpseFresh($tile, item)) //refactor this corpse logic
 	not InShop()
 then
-	insert(ReasonedAction.create(new Eat($corpse), "eating fresh corpse outside of a shop, " + $corpse.type().name() + "[" + $corpse.name() + "]"));
+	insert(new Eat($corpse));
 end

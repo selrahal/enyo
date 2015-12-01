@@ -8,12 +8,7 @@ import bothack.bot.IGame;
 import bothack.bot.dungeon.Branch;
 
 public class ExploreMainBranch implements Action{
-	private IAction delegate;
-	public ExploreMainBranch(IGame game) {
-		delegate = Navigation.explore(game, Branch.MAIN);
-	}
-	
-	public IAction delegate() {
-		return delegate;
+	public IAction delegate(IGame game) {
+		return Navigation.explore(game, Branch.MAIN);
 	}
 }

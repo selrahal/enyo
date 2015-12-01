@@ -7,7 +7,6 @@ import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Polymorphed;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.action.Wait;
 
 global org.slf4j.Logger logger;
@@ -17,5 +16,5 @@ when
 	IGame($player : player)
 	Polymorphed() //TODO: care about type
 then
-	insertLogical(ReasonedAction.create(new Wait(), "waiting to not be polymorphed"));
+	insertLogical(new Wait());
 end

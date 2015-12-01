@@ -7,7 +7,6 @@ import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Blind;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.action.Wait;
 
 global org.slf4j.Logger logger;
@@ -17,5 +16,5 @@ when
 	IGame($player : player)
 	Blind() //TODO: care about type (external or not)
 then
-	insert(ReasonedAction.create(new Wait(), "waiting to not be blind"));
+	insert(new Wait());
 end

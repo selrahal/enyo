@@ -7,7 +7,6 @@ import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Ill;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.action.Pray;
 
 global org.slf4j.Logger logger;
@@ -17,5 +16,5 @@ when
 	IGame($player : player)
 	Ill()
 then
-	insert(ReasonedAction.create(new Pray(), "praying to not be ill"));
+	insert(new Pray());
 end

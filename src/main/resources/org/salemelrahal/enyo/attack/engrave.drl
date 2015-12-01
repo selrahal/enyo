@@ -7,7 +7,6 @@ import bothack.bot.Hunger;
 import bothack.bot.Direction;
 import bothack.bot.monsters.IMonster;
 import bothack.bot.Position;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.state.OnElbereth;
 import org.salemelrahal.enyo.state.OnEngravableTile;
@@ -25,7 +24,7 @@ when
 	IGame(canEngrave())
 	not ItemInInventory($slot : slot, item.name().contains("wand of fire"))
 then
-	insertLogical(ReasonedAction.create(new Engrave('-', "Elbereth"), "Engraving elbereth with finger proactively "));
+	insertLogical(new Engrave('-', "Elbereth"));
 end
 
 
@@ -38,5 +37,5 @@ when
 	IGame(canEngrave())
 	ItemInInventory($slot : slot, item.name().contains("wand of fire"))
 then
-	insertLogical(ReasonedAction.create(new Engrave($slot, "Elbereth"), "Engraving elbereth with wand of fire proactively"));
+	insertLogical(new Engrave($slot, "Elbereth"));
 end

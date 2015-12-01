@@ -6,7 +6,6 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.Panic;
@@ -19,10 +18,9 @@ global org.slf4j.Logger logger;
 
 rule "Zap random wands when panicced"
 when
-	$game : IGame($player : player)
 	Panic()
 	Enemy($monster : target, isMarked())
 	ItemInInventory($slot : slot, $item : item, $item.name().contains("wand"), $item.type() == null)
 then
-	insertLogical(ReasonedAction.create(new ZapWandAtMonster($slot, $player, $monster), "zapping adjacent marked monster " + $monster.type().name() + " with " + $item.name()));
+	insertLogical(new ZapWandAtMonster($slot, $monster));
 end

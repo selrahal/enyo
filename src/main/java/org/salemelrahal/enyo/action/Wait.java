@@ -2,14 +2,10 @@ package org.salemelrahal.enyo.action;
 
 import bothack.actions.Actions;
 import bothack.actions.IAction;
+import bothack.bot.IGame;
 
 public class Wait implements Action{
-	private IAction delegate;
-	public Wait() {
-		delegate = Actions.Search();
-	}
-	
-	public IAction delegate() {
-		return delegate;
+	public IAction delegate(IGame game) {
+		return Actions.Search();
 	}
 }

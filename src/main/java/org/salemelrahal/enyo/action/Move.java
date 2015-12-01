@@ -4,6 +4,7 @@ import bothack.actions.Actions;
 import bothack.actions.IAction;
 import bothack.actions.Navigation.IPath;
 import bothack.bot.Direction;
+import bothack.bot.IGame;
 
 public class Move implements Action{
 	private IAction delegate;
@@ -19,7 +20,7 @@ public class Move implements Action{
 		delegate = path.step();
 	}
 	
-	public IAction delegate() {
+	public IAction delegate(IGame game) {
 		return delegate;
 	}
 }

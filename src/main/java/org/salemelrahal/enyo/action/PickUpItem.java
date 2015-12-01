@@ -2,6 +2,7 @@ package org.salemelrahal.enyo.action;
 
 import bothack.actions.Actions;
 import bothack.actions.IAction;
+import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 
 public class PickUpItem implements Action{
@@ -10,7 +11,7 @@ public class PickUpItem implements Action{
 		delegate = Actions.PickUp(item.label());
 	}
 	
-	public IAction delegate() {
+	public IAction delegate(IGame game) {
 		return delegate;
 	}
 }

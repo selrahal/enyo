@@ -6,13 +6,8 @@ import bothack.actions.ActionsComplex;
 import bothack.actions.IAction;
 import bothack.bot.IGame;
 
-public class DoSokoban implements Action{
-	private IAction delegate;
-	public DoSokoban(IGame game) {
-		delegate = ActionsComplex.doSokoban(game);
-	}
-	
-	public IAction delegate() {
-		return delegate;
+public class DoSokoban implements Action{	
+	public IAction delegate(IGame game) {
+		return ActionsComplex.doSokoban(game);
 	}
 }

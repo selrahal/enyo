@@ -2,14 +2,10 @@ package org.salemelrahal.enyo.action;
 
 import bothack.actions.Actions;
 import bothack.actions.IAction;
+import bothack.bot.IGame;
 
-public class Pray implements Action{
-	private IAction delegate;
-	public Pray() {
-		delegate = Actions.Pray();
-	}
-	
-	public IAction delegate() {
-		return delegate;
+public class Pray implements Action{	
+	public IAction delegate(IGame game) {
+		return Actions.Pray();
 	}
 }

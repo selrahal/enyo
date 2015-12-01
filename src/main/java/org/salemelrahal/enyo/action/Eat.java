@@ -2,6 +2,7 @@ package org.salemelrahal.enyo.action;
 
 import bothack.actions.Actions;
 import bothack.actions.IAction;
+import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 
 public class Eat implements Action{
@@ -14,7 +15,7 @@ public class Eat implements Action{
 		delegate = Actions.Eat(item.label());
 	}
 	
-	public IAction delegate() {
+	public IAction delegate(IGame game) {
 		return delegate;
 	}
 }

@@ -8,7 +8,7 @@ import org.kie.api.KieBase;
 import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.ObjectFilter;
-import org.salemelrahal.enyo.action.ReasonedAction;
+import org.salemelrahal.enyo.action.Action;
 import org.salemelrahal.enyo.fact.PathToAdvantageousTile;
 import org.salemelrahal.enyo.fact.PathToFountainTile;
 import org.salemelrahal.enyo.fact.PathToGoldTile;
@@ -29,7 +29,7 @@ public class DroolsActionHandler implements IActionHandler {
 	
 	private Collection<Persistent> persistentFacts = new ArrayList<Persistent>(0);
 	private static final ObjectFilter PERSISTABLE = new ClassObjectFilter(Persistent.class);
-	private static final ObjectFilter ACTIONS = new ClassObjectFilter(ReasonedAction.class);
+	private static final ObjectFilter ACTIONS = new ClassObjectFilter(Action.class);
 	
 	public DroolsActionHandler(KieBase kieBase) {
 		this.kieBase = kieBase;
@@ -40,14 +40,14 @@ public class DroolsActionHandler implements IActionHandler {
 		KieSession kieSession = kieBase.newKieSession();
 		this.initKieSession(kieSession, gamestate);
 		kieSession.fireAllRules();
-		ReasonedAction action = this.getReasonedAction(kieSession);
+		Action action = this.getReasonedAction(kieSession);
 		this.persistentFacts = this.getPersistentFacts(kieSession);
 		
 		logger.info("Rule set chose " + action);
 		
 		this.cleanupKieSession(kieSession);
 		
-		return action.getDelegate();
+		return action.delegate(gamestate);
 	}
 	
 	private void initKieSession(KieSession kieSession, IGame gamestate) {
@@ -77,16 +77,16 @@ public class DroolsActionHandler implements IActionHandler {
 		return toReturn;
 	}
 	
-	private ReasonedAction getReasonedAction(KieSession kieSession) {
+	private Action getReasonedAction(KieSession kieSession) {
 		Collection<?> actionFacts = kieSession.getObjects(ACTIONS);
-		List<ReasonedAction> toReturn = new ArrayList<ReasonedAction>(actionFacts.size());
+		List<Action> toReturn = new ArrayList<Action>(actionFacts.size());
 		for (Object o : actionFacts) {
-			toReturn.add((ReasonedAction)o);
+			toReturn.add((Action)o);
 		}
 		if (toReturn.size() != 1) {
 			logger.error("Rule set chose more than one action, choosing arbitrarely!");
-			for (ReasonedAction action : toReturn) {
-				logger.info(action.getAction() + " - " + action.getReason());
+			for (Action action : toReturn) {
+				logger.info("-" + action);
 			}
 		}
 		return toReturn.get(0);	

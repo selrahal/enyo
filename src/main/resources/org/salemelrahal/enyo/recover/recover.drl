@@ -6,7 +6,6 @@ import bothack.bot.IGame;
 import bothack.bot.items.IItem;
 import bothack.bot.Hunger;
 import java.util.Map.Entry;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.LowHealth;
@@ -26,7 +25,7 @@ when
 	MediumHealth()
 	not Enemy()
 then
-	insertLogical(ReasonedAction.create(new Wait(), "waiting to heal up "));
+	insertLogical(new Wait());
 end
 
 rule "Drink potion when in trouble"
@@ -35,7 +34,7 @@ when
 	Enemy(!respectsElbereth())
 	ItemInInventory($slot : slot, item.name().contains("potion of full healing"), !BUC.CURSED.equals(item.buc()))
 then
-	insertLogical(ReasonedAction.create(new Quaff($slot), "quaffing !c||u potion of full healing"));
+	insertLogical(new Quaff($slot));
 end
 
 
@@ -45,7 +44,7 @@ when
 	LowHealth()
 	not Enemy(!respectsElbereth())
 then
-	insertLogical(ReasonedAction.create(new Wait(), "waiting to heal up, on elbereth "));
+	insertLogical(new Wait());
 end
 
 rule "Engrave with wand of fire when in danger"
@@ -58,7 +57,7 @@ when
 	Enemy(respectsElbereth())
 	not Enemy(!respectsElbereth())
 then
-	insertLogical(ReasonedAction.create(new Engrave($slot, "Elbereth"), "Engraving elbereth with wand of fire "));
+	insertLogical(new Engrave($slot, "Elbereth"));
 end
 
 
@@ -71,6 +70,6 @@ when
 	Enemy(respectsElbereth())
 	not Enemy(!respectsElbereth())
 then
-	insertLogical(ReasonedAction.create(new Engrave('-', "Elbereth"), "Engraving elbereth with finger "));
+	insertLogical(new Engrave('-', "Elbereth"));
 end
 

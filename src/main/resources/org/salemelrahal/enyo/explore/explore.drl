@@ -8,7 +8,6 @@ import bothack.actions.Navigation.IPath;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
 import bothack.bot.dungeon.Branch;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.action.branch.DoSokoban;
@@ -16,16 +15,16 @@ import org.salemelrahal.enyo.action.branch.ExploreMainBranch;
 
 global org.slf4j.Logger logger;
 
-rule "Explore current level"
+rule "Explore current level if we have nothing else to do"
 when
-	$game : IGame($player : player)
+	not ExploreMainBranch()
 then
-	insertLogical(ReasonedAction.create(new ExploreMainBranch($game), "Doing main branch by default...."));
+	insertLogical(new ExploreMainBranch());
 end
 
 rule "Explore sokoban level"
 when
 	$game : IGame($player : player, player.experienceLevel() > 7)
 then
-	insertLogical(ReasonedAction.create(new DoSokoban($game), "Doing sokoban branch by default...."));
+	insertLogical(new DoSokoban());
 end

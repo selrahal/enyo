@@ -9,7 +9,6 @@ import bothack.bot.Hunger;
 import bothack.bot.Direction;
 import bothack.bot.monsters.IMonster;
 import bothack.bot.Position;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.state.OnElbereth;
 import org.salemelrahal.enyo.state.OnEngravableTile;
@@ -21,18 +20,16 @@ global org.slf4j.Logger logger;
 
 rule "Melee attack adjacent target enemy"
 when
-	$game : IGame($player : player)
-	Enemy($monster : target, isMarked(), isAdjacent(), $name : getName())
+	Enemy($monster : target, isMarked(), isAdjacent())
 then
-	insertLogical(ReasonedAction.create(new Attack($player, $monster), "attack adjacent marked monster " + $name));
+	insertLogical(new Attack($monster));
 end
 
 
 rule "Range attack target enemy"
 when
-	$game : IGame($player : player)
-	Enemy($monster : target, isRangeMarked(), $name : getName())
+	Enemy($monster : target, isRangeMarked())
 	RangedWeapon($slot : slot)
 then
-	insertLogical(ReasonedAction.create(new Throw($slot, $player, $monster), "throwing weapon at range marked monster " + $name));
+	insertLogical(new Throw($slot, $monster));
 end

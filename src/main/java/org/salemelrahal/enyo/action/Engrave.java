@@ -2,6 +2,7 @@ package org.salemelrahal.enyo.action;
 
 import bothack.actions.Actions;
 import bothack.actions.IAction;
+import bothack.bot.IGame;
 
 public class Engrave implements Action{
 	private IAction delegate;
@@ -9,7 +10,7 @@ public class Engrave implements Action{
 		delegate = Actions.EngraveOverwriting(slot, message);
 	}
 	
-	public IAction delegate() {
+	public IAction delegate(IGame game) {
 		return delegate;
 	}
 }

@@ -7,7 +7,6 @@ import bothack.bot.Hunger;
 import bothack.bot.Direction;
 import bothack.bot.monsters.IMonster;
 import bothack.bot.Position;
-import org.salemelrahal.enyo.action.ReasonedAction;
 
 global org.slf4j.Logger logger;
 
@@ -15,5 +14,5 @@ rule "Engulfed"
 when
 	$game : IGame($player : player, player.isEngulfed())
 then
-	insertLogical(ReasonedAction.create(new Move(Direction.E), "moving to attack engulfer"));
+	insertLogical(new Move(Direction.E));
 end

@@ -8,7 +8,6 @@ import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Lycanthropic;
 import org.salemelrahal.enyo.item.ItemInInventory;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import bothack.bot.items.ItemType;
 import org.salemelrahal.enyo.action.Pray;
 import org.salemelrahal.enyo.action.Eat;
@@ -22,7 +21,7 @@ when
 	Lycanthropic()
 	ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("sprig of wolfsbane"))
 then
-	insertLogical(ReasonedAction.create(new Eat($slot), "eating sprig of wolfsbane because stoning"));
+	insertLogical(new Eat($slot));
 end
 
 
@@ -33,7 +32,7 @@ when
 	Lycanthropic()
 	not ItemInInventory($slot : slot, $item : item, item.type() == ItemType.byName("sprig of wolfsbane"))
 then
-	insertLogical(ReasonedAction.create(new Pray(), "praying because lycanthropic"));
+	insertLogical(new Pray());
 end
 
 

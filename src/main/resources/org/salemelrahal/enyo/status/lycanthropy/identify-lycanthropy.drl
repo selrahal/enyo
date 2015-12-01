@@ -8,7 +8,6 @@ import bothack.bot.Hunger;
 import java.util.Map.Entry;
 import org.salemelrahal.enyo.state.Lycanthropic;
 import org.salemelrahal.enyo.item.ItemInInventory;
-import org.salemelrahal.enyo.action.ReasonedAction;
 import bothack.bot.items.ItemType;
 
 global org.slf4j.Logger logger;
