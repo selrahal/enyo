@@ -11,13 +11,14 @@ import bothack.bot.dungeon.Branch;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemInInventory;
 import org.salemelrahal.enyo.action.branch.DoSokoban;
+import org.salemelrahal.enyo.action.Action;
 import org.salemelrahal.enyo.action.branch.ExploreMainBranch;
 
 global org.slf4j.Logger logger;
 
 rule "Explore current level if we have nothing else to do"
 when
-	not ExploreMainBranch()
+	not Action(!this.getClass().equals(ExploreMainBranch.class))
 then
 	insertLogical(new ExploreMainBranch());
 end

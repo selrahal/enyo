@@ -15,23 +15,15 @@ import bothack.bot.items.IItem;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
-import org.salemelrahal.enyo.action.PickUpWeapon;
-import org.salemelrahal.enyo.action.MoveTowardsEnemy;
+import org.salemelrahal.enyo.action.PickUpItem;
 
 global org.slf4j.Logger logger;
 
-rule "Pick up dagger outside of a shop"
-when
-	ItemOnTile($dagger : item,  item.name().contains("dagger"))
-	not InShop()
-then
-	insertLogical(new PickUpWeapon($dagger));
-end
 
-rule "Pick up weapons when you're on the way to kill a monster"
+rule "Pick up item is identical (for now)"
 when
-	move : MoveTowardsEnemy()
-	PickUpWeapon()
+	first : PickUpItem()
+	second : PickUpItem(first != second)
 then
-	delete(move);
+	delete(second);
 end

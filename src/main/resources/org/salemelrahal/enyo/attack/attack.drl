@@ -2,7 +2,9 @@ package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
 import org.salemelrahal.enyo.action.Attack;
+import org.salemelrahal.enyo.action.Wait;
 import org.salemelrahal.enyo.action.Throw;
+import org.salemelrahal.enyo.action.MoveTowardsEnemy;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
@@ -25,11 +27,26 @@ then
 	insertLogical(new Attack($monster));
 end
 
-
 rule "Range attack target enemy"
 when
 	Enemy($monster : target, isRangeMarked())
 	RangedWeapon($slot : slot)
 then
 	insertLogical(new Throw($slot, $monster));
+end
+
+rule "Always attack instead of waiting"
+when
+	Attack()
+	wait : Wait()
+then
+	delete(wait);
+end
+
+rule "Always attack instead of moving" //maybe we should take the monster's difficulty into account?
+when
+	Attack()
+	move : MoveTowardsEnemy()
+then
+	delete(move);
 end

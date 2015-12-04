@@ -88,6 +88,7 @@ public class DroolsActionHandler implements IActionHandler {
 			for (Action action : toReturn) {
 				logger.info("-" + action);
 			}
+			System.exit(0);
 		}
 		return toReturn.get(0);	
 	}

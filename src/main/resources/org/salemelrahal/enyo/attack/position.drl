@@ -1,7 +1,7 @@
 package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
-import org.salemelrahal.enyo.action.Move;
+import org.salemelrahal.enyo.action.MoveToAdvantageousTile;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
@@ -34,6 +34,13 @@ when
 	not OnAdvantageousTile()
 	PathToAdvantageousTile($path : path != null)
 then
-	//Maybe instead of 'new Move(..)' it should be 'new MoveToAdvantageousTile(...)'
-	insertLogical(new Move($path));
+	insertLogical(new MoveToAdvantageousTile($path));
+end
+
+rule "Move to advantageous tile instead of attacking"
+when
+	attack : Attack()
+	MoveToAdvantageousTile()
+then
+	delete(attack);
 end

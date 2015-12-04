@@ -11,6 +11,9 @@ import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
 import org.salemelrahal.enyo.action.Pray;
 import org.salemelrahal.enyo.action.Eat;
+import org.salemelrahal.enyo.action.MoveTowardsEnemy;
+import org.salemelrahal.enyo.action.PickUpItem;
+
 
 global org.slf4j.Logger logger;
 
@@ -46,4 +49,29 @@ when
 	not InShop()
 then
 	insert(new Eat($corpse));
+end
+
+rule "Eating is more important than picking up an item"
+when
+	Eat()
+	pickup: PickUpItem()
+then
+	delete(pickup);
+end
+
+rule "Defer eating when attacking"
+when
+	IGame(player.hunger() != Hunger.WEAK) 
+	eat : Eat()
+	MoveTowardsEnemy()
+then
+	delete(eat);
+end
+
+rule "Eats are identical (for now)"
+when
+	first : Eat()
+	second : Eat(second != first)
+then
+	delete(second);
 end

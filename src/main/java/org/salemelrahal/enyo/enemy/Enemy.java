@@ -18,17 +18,26 @@ public class Enemy {
 	private boolean marked;
 	private boolean rangeMarked;
 	private IPath pathTo;
+	private Long difficulty;
+	private Integer distance;
 	public Enemy(IGame game, IMonster target, boolean isAdjacent) {
 		LOG.info("target=" + target + " isAdjacent = " + isAdjacent);
 		this.target = target;
 		this.type = target.type();
 		if (this.type != null) {
 			this.name = this.type.name();
+			this.difficulty = this.type.difficulty();
 		} else {
 			name = null;
 		}
+		
 		this.isAdjacent = isAdjacent;
 		this.pathTo = Navigation.navigate(game, target);
+		if (this.pathTo != null) {
+			this.distance = this.pathTo.path().size();
+		} else {
+			this.distance = Integer.MAX_VALUE;
+		}
 	}
 	
 	public String getName() {
@@ -72,4 +81,13 @@ public class Enemy {
 	public IPath getPathTo() {
 		return this.pathTo;
 	}
+
+	public Long getDifficulty() {
+		return difficulty;
+	}
+
+	public Integer getDistance() {
+		return distance;
+	}
+	
 }

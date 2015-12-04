@@ -1,7 +1,8 @@
 package org.salemelrahal.enyo.attack;
 
 import bothack.bot.IGame;
-import org.salemelrahal.enyo.action.Move;
+import org.salemelrahal.enyo.action.MoveTowardsEnemy;
+import org.salemelrahal.enyo.action.Attack;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.monsters.IMonster;
 import bothack.actions.Actions;
@@ -12,7 +13,23 @@ global org.slf4j.Logger logger;
 
 rule "Move towards marked enemy that is not adjacent"
 when
-	Enemy($monster : target, isMarked(), !isAdjacent(), $name : getName(), $path : getPathTo() != null) //monsters seen via telepathy might not have a pathTo
+	$enemy : Enemy($monster : target, isMarked(), !isAdjacent(), $name : getName(), $path : getPathTo() != null) //monsters seen via telepathy might not have a pathTo
 then
-	insertLogical(new Move($path));
+	insertLogical(new MoveTowardsEnemy($enemy, $path));
+end
+
+rule "Move to eliminate the weaklings!" //Maybe figure out a ration of difficulty/distance that provides best target?
+when
+	MoveTowardsEnemy($difficulty : enemy.getDifficulty())
+	$stronger : MoveTowardsEnemy(enemy.getDifficulty() > $difficulty)
+then
+	delete($stronger);
+end
+
+rule "Move to the closest enemies" //Maybe figure out a ration of difficulty/distance that provides best target?
+when
+	MoveTowardsEnemy($distance : enemy.getDistance())
+	$farther : MoveTowardsEnemy(enemy.getDistance() > $distance)
+then
+	delete($farther);
 end
