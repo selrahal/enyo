@@ -15,14 +15,14 @@ import bothack.bot.items.IItem;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
-import org.salemelrahal.enyo.action.PickUpItem;
+import org.salemelrahal.enyo.action.item.PickUpItem;
 
 global org.slf4j.Logger logger;
 
 rule "Pick up wand outside of a shop"
 when
-	ItemOnTile($wand : item,  item.name().contains("wand"))
+	$item : ItemOnTile(name.contains("wand"))
 	not InShop()
 then
-	insertLogical(new PickUpItem($wand));
+	insertLogical(new PickUpItem($item));
 end

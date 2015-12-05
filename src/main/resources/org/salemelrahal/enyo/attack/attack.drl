@@ -42,36 +42,3 @@ when
 then
 	delete($wait);
 end
-
-rule "Always attack instead of moving" //maybe we should take the monster's difficulty into account?
-when
-	Attack()
-	$move : MoveTowardsEnemy()
-then
-	delete($move);
-end
-
-rule "Always attack the stronger monster?" //maybe we should take the monster's difficulty into account?
-when
-	Attack($difficulty : target.getDifficulty())
-	$weaker : Attack(target.getDifficulty() < $difficulty)
-then
-	delete($weaker);
-end
-
-rule "Attack at random between like monster?DEBUG" //maybe we should take the monster's difficulty into account?
-when
-	$first : Attack($difficulty : target.getDifficulty())
-	$second : Attack(target.getDifficulty() == $difficulty, this != $first)
-then
-	logger.info("$first:" + $first);
-	logger.info("$second:" + $second);
-end
-
-rule "Attack at random between like monster?" //maybe we should take the monster's difficulty into account?
-when
-	$first : Attack($difficulty : target.getDifficulty())
-	$second : Attack(target.getDifficulty() == $difficulty, this != $first)
-then
-	delete($second);
-end

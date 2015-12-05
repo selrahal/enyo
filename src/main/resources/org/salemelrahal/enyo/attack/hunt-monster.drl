@@ -17,26 +17,3 @@ when
 then
 	insertLogical(new MoveTowardsEnemy($enemy, $path));
 end
-
-rule "Debug MoveTowardsEnemy"
-when
-	MoveTowardsEnemy($enemy : target, $difficulty : target.getDifficulty(), $distance : target.getDistance())
-then
-	logger.info("**MoveTowardsEnemy" + $enemy.getPosition() + " , dif=" + $difficulty + " dis=" + $distance);
-end
-
-rule "Move to eliminate the weaklings!" //Maybe figure out a ration of difficulty/distance that provides best target?
-when
-	MoveTowardsEnemy($difficulty : target.getDifficulty())
-	$stronger : MoveTowardsEnemy(target.getDifficulty() > $difficulty)
-then
-	delete($stronger);
-end
-
-rule "Move to the closest enemies" //Maybe figure out a ration of difficulty/distance that provides best target?
-when
-	MoveTowardsEnemy($distance : target.getDistance())
-	$farther : MoveTowardsEnemy(target.getDistance() > $distance)
-then
-	delete($farther);
-end

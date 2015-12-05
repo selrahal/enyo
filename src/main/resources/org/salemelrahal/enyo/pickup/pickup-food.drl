@@ -15,31 +15,31 @@ import bothack.bot.items.IItem;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
-import org.salemelrahal.enyo.action.PickUpItem;
+import org.salemelrahal.enyo.action.item.PickUpItem;
 
 global org.slf4j.Logger logger;
 
 
 rule "Pick up food ration outside of a shop"
 when
-	ItemOnTile($food : item,  item.type() == ItemType.byName("food ration"))
+	$item : ItemOnTile(type == ItemType.byName("food ration"))
 	not InShop()
 then
-	insertLogical(new PickUpItem($food));
+	insertLogical(new PickUpItem($item));
 end
 
 rule "Pick up lichen corpse outside of a shop"
 when
-	ItemOnTile($corpse : item, item.type() == ItemType.byName("lichen corpse"))
+	$item : ItemOnTile(type == ItemType.byName("lichen corpse"))
 	not InShop()
 then
-	insertLogical(new PickUpItem($corpse));
+	insertLogical(new PickUpItem($item));
 end
 
 rule "Pick up lizard corpse outside of a shop"
 when
-	ItemOnTile($corpse : item, item.type() == ItemType.byName("lizard corpse"))
+	$item : ItemOnTile(type == ItemType.byName("lizard corpse"))
 	not InShop()
 then
-	insertLogical(new PickUpItem($corpse));
+	insertLogical(new PickUpItem($item));
 end

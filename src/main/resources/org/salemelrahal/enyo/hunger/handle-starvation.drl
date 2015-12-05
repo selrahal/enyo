@@ -12,7 +12,8 @@ import org.salemelrahal.enyo.state.InShop;
 import org.salemelrahal.enyo.action.Pray;
 import org.salemelrahal.enyo.action.Eat;
 import org.salemelrahal.enyo.action.monster.MoveTowardsEnemy;
-import org.salemelrahal.enyo.action.PickUpItem;
+import org.salemelrahal.enyo.action.monster.TargetEnemyAction;
+import org.salemelrahal.enyo.action.item.PickUpItem;
 import org.salemelrahal.enyo.action.Wait;
 
 
@@ -43,7 +44,7 @@ then
 end
 
 
-rule "Eat fresh corpse outside of a shop"
+rule "Eat fresh corpse outside of a shop when not satiated"
 when
 	$game : IGame($player : player, player.hunger() != Hunger.SATIATED, $tile : currentLevel.at(player))
 	ItemOnTile($corpse : item, $player.canEat(item), item.isCorpse(), $game.isCorpseFresh($tile, item)) //refactor this corpse logic
@@ -68,11 +69,11 @@ then
 	delete($wait);
 end
 
-rule "Defer eating when attacking"
+rule "Defer eating when dealing with monster"
 when
 	IGame(player.hunger() != Hunger.WEAK) 
 	$eat : Eat()
-	MoveTowardsEnemy()
+	TargetEnemyAction()
 then
 	delete($eat);
 end

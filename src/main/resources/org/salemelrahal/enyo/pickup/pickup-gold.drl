@@ -3,14 +3,14 @@ package org.salemelrahal.enyo.pickup;
 import bothack.bot.items.ItemType;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
-import org.salemelrahal.enyo.action.PickUpItem;
+import org.salemelrahal.enyo.action.item.PickUpItem;
 
 global org.slf4j.Logger logger;
 
 rule "Pick up gold"
 when
-	ItemOnTile($gold : item,  item.type() == ItemType.byName("gold piece"))
+	$item : ItemOnTile(type == ItemType.byName("gold piece"))
 	not InShop()
 then
-	insertLogical(new PickUpItem($gold));
+	insertLogical(new PickUpItem($item));
 end

@@ -29,3 +29,19 @@ when
 then
 	delete($weaker);
 end
+
+rule "Deal with stronger enemies first, closer enemies second"
+when
+	TargetEnemyAction($difficulty : target.getDifficulty(), $distance : target.getDistance())
+	$farther  : TargetEnemyAction(target.getDifficulty() == $difficulty, target.getDistance() > $distance)
+then
+	delete($farther);
+end
+
+rule "Deal with equivalently strong and close enemies at random"
+when
+	TargetEnemyAction($difficulty : target.getDifficulty(), $distance : target.getDistance())
+	$second  : TargetEnemyAction(target.getDifficulty() == $difficulty, target.getDistance() == $distance)
+then
+	delete($second);
+end

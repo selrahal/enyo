@@ -15,17 +15,17 @@ import bothack.bot.items.IItem;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
-import org.salemelrahal.enyo.action.PickUpWeapon;
+import org.salemelrahal.enyo.action.item.PickUpWeapon;
 import org.salemelrahal.enyo.action.monster.MoveTowardsEnemy;
 
 global org.slf4j.Logger logger;
 
 rule "Pick up dagger outside of a shop"
 when
-	ItemOnTile($dagger : item,  item.name().contains("dagger"))
+	$item : ItemOnTile(item.name().contains("dagger"))
 	not InShop()
 then
-	insertLogical(new PickUpWeapon($dagger));
+	insertLogical(new PickUpWeapon($item));
 end
 
 rule "Pick up weapons when you're on the way to kill a monster"

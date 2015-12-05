@@ -15,15 +15,16 @@ import bothack.bot.items.IItem;
 import org.salemelrahal.enyo.util.MapUtil;
 import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.InShop;
-import org.salemelrahal.enyo.action.PickUpItem;
+import org.salemelrahal.enyo.action.item.PickUpWeapon;
+import org.salemelrahal.enyo.action.item.TargetItemAction;
+import org.salemelrahal.enyo.action.monster.MoveTowardsEnemy;
 
 global org.slf4j.Logger logger;
 
-
-rule "Pick up item is identical (for now)"
+rule "Deal with high priority items"
 when
-	first : PickUpItem()
-	second : PickUpItem(first != second)
+	TargetItemAction(target.getPriority() != null, $priority : target.getPriority())
+	$low : TargetItemAction(target.getPriority() != null, target.getPriority() < $priority)
 then
-	delete(second);
+	delete($low);
 end
