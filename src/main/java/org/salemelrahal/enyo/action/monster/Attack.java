@@ -1,19 +1,24 @@
 package org.salemelrahal.enyo.action;
 
+import org.salemelrahal.enyo.enemy.Enemy;
+
 import bothack.actions.Actions;
 import bothack.actions.IAction;
 import bothack.bot.Direction;
 import bothack.bot.IGame;
-import bothack.bot.monsters.IMonster;
 
 public class Attack implements Action{
-	private IMonster target;
+	private Enemy target;
 	
-	public Attack(IMonster monster) {
+	public Attack(Enemy monster) {
 		target = monster;
 	}
 	
 	public IAction delegate(IGame game) {
-		return Actions.Move(Direction.towards(game.player(), target));
+		return Actions.Move(Direction.towards(game.player(), target.getTarget()));
+	}
+	
+	public Enemy getTarget() {
+		return target;
 	}
 }

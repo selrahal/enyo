@@ -39,3 +39,11 @@ when
 then
 	insertLogical(new Engrave($slot, "Elbereth"));
 end
+
+rule "Engraves with the same slot and text are identical" //Use truth evaluation here?
+when
+	Engrave($slot : slot, $message : message)
+	$second : Engrave(slot == $slot, message == $message)
+then
+	delete($second);
+end

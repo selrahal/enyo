@@ -18,6 +18,13 @@ then
 	insertLogical(new MoveTowardsEnemy($enemy, $path));
 end
 
+rule "Debug MoveTowardsEnemy"
+when
+	MoveTowardsEnemy($enemy : enemy, $difficulty : enemy.getDifficulty(), $distance : enemy.getDistance())
+then
+	logger.info("**MoveTowardsEnemy" + $enemy.getTarget() + " , dif=" + $difficulty + " dis=" + $distance);
+end
+
 rule "Move to eliminate the weaklings!" //Maybe figure out a ration of difficulty/distance that provides best target?
 when
 	MoveTowardsEnemy($difficulty : enemy.getDifficulty())

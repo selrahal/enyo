@@ -5,12 +5,23 @@ import bothack.actions.IAction;
 import bothack.bot.IGame;
 
 public class Engrave implements Action{
-	private IAction delegate;
+	private Character slot;
+	private String message;
 	public Engrave(Character slot, String message) {
-		delegate = Actions.EngraveOverwriting(slot, message);
+		this.slot = slot;
+		this.message = message;
 	}
 	
 	public IAction delegate(IGame game) {
-		return delegate;
+		return Actions.EngraveOverwriting(slot, message);
 	}
+
+	public Character getSlot() {
+		return slot;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
 }
