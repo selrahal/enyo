@@ -57,3 +57,13 @@ when
 then
 	delete($action);
 end
+
+
+rule "Engraving is advantageous if no monsters dont respect E"
+when
+	$engrave : Engrave(message == "Elbereth")
+	not Enemy(!respectsElbereth)
+	$action : MoveToAdvantageousTile()
+then
+	delete($action);
+end

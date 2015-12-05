@@ -1,7 +1,8 @@
 package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
-import org.salemelrahal.enyo.action.Move;
+import org.salemelrahal.enyo.action.Action;
+import org.salemelrahal.enyo.action.monster.AttackEngulfer;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
 import bothack.bot.Direction;
@@ -10,9 +11,19 @@ import bothack.bot.Position;
 
 global org.slf4j.Logger logger;
 
+
 rule "Engulfed"
 when
 	$game : IGame($player : player, player.isEngulfed())
 then
-	insertLogical(new Move(Direction.E));
+	insertLogical(new AttackEngulfer());
+end
+
+
+rule "Attacking engulfer trumps any other actions?"
+when
+	$otherAction : Action(!getClass().equals(AttackEngulfer.class))
+	$attackEngulfer : AttackEngulfer()
+then
+	delete($otherAction);
 end
