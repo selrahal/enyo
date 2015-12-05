@@ -11,7 +11,7 @@ import org.salemelrahal.enyo.item.ItemOnTile;
 import org.salemelrahal.enyo.state.Panic;
 import bothack.bot.Direction;
 import org.salemelrahal.enyo.enemy.Enemy;
-import org.salemelrahal.enyo.action.ZapWandAtMonster;
+import org.salemelrahal.enyo.action.monster.ZapWandAtMonster;
 
 
 global org.slf4j.Logger logger;
@@ -19,8 +19,8 @@ global org.slf4j.Logger logger;
 rule "Zap random wands when panicced"
 when
 	Panic()
-	Enemy($monster : target, isMarked())
+	$enemy : Enemy(isMarked())
 	ItemInInventory($slot : slot, $item : item, $item.name().contains("wand"), $item.type() == null)
 then
-	insertLogical(new ZapWandAtMonster($slot, $monster));
+	insertLogical(new ZapWandAtMonster($slot, $enemy));
 end

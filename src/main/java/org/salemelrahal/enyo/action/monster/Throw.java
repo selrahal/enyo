@@ -7,18 +7,19 @@ import bothack.actions.IAction;
 import bothack.bot.Direction;
 import bothack.bot.IGame;
 
-public class Attack implements TargetEnemyAction{
+public class Throw implements TargetEnemyAction{
+	private Character slot;
 	private Enemy target;
-	
-	public Attack(Enemy monster) {
-		target = monster;
+	public Throw(Character slot, Enemy enemy) {
+		this.slot = slot;
+		this.target = enemy;
 	}
 	
 	public IAction delegate(IGame game) {
-		return Actions.Move(Direction.towards(game.player(), target.getPosition()));
+		return Actions.Throw(slot, Direction.towards(game.player(), target.getPosition()));
 	}
 	
 	public Enemy getTarget() {
-		return target;
+		return this.target;
 	}
 }

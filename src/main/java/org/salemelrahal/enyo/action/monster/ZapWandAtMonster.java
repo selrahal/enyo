@@ -7,18 +7,20 @@ import bothack.actions.IAction;
 import bothack.bot.Direction;
 import bothack.bot.IGame;
 
-public class Attack implements TargetEnemyAction{
+public class ZapWandAtMonster implements TargetEnemyAction{
+	private Character slot;
 	private Enemy target;
 	
-	public Attack(Enemy monster) {
-		target = monster;
+	public ZapWandAtMonster(Character slot, Enemy enemy) {
+		this.slot = slot;
+		this.target = enemy;
 	}
 	
 	public IAction delegate(IGame game) {
-		return Actions.Move(Direction.towards(game.player(), target.getPosition()));
+		return Actions.ZapWandAt(slot,Direction.towards(game.player(), target.getPosition()));
 	}
 	
 	public Enemy getTarget() {
-		return target;
+		return this.target;
 	}
 }

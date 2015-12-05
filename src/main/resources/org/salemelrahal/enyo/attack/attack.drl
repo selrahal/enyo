@@ -1,10 +1,10 @@
 package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
-import org.salemelrahal.enyo.action.Attack;
+import org.salemelrahal.enyo.action.monster.Attack;
 import org.salemelrahal.enyo.action.Wait;
-import org.salemelrahal.enyo.action.Throw;
-import org.salemelrahal.enyo.action.MoveTowardsEnemy;
+import org.salemelrahal.enyo.action.monster.Throw;
+import org.salemelrahal.enyo.action.monster.MoveTowardsEnemy;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
@@ -29,10 +29,10 @@ end
 
 rule "Range attack target enemy"
 when
-	Enemy($monster : target, isRangeMarked())
+	$enemy : Enemy(isRangeMarked())
 	RangedWeapon($slot : slot)
 then
-	insertLogical(new Throw($slot, $monster));
+	insertLogical(new Throw($slot, $enemy));
 end
 
 rule "Always attack instead of waiting"

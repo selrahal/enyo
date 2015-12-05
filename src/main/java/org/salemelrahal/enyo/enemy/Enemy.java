@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import bothack.actions.Navigation;
 import bothack.actions.Navigation.IPath;
 import bothack.bot.IGame;
+import bothack.bot.IPosition;
 import bothack.bot.monsters.IMonster;
 import bothack.bot.monsters.IMonsterType;
 
@@ -42,10 +43,6 @@ public class Enemy {
 	
 	public String getName() {
 		return name;
-	}
-
-	public IMonster getTarget() {
-		return target;
 	}
 	
 	public boolean respectsElbereth() {
@@ -88,6 +85,10 @@ public class Enemy {
 
 	public Integer getDistance() {
 		return distance;
+	}
+	
+	public IPosition getPosition() {
+		return (IPosition)target;
 	}
 	
 }

@@ -2,6 +2,7 @@ package org.salemelrahal.enyo.attack;
 
 import bothack.actions.Actions;
 import org.salemelrahal.enyo.action.MoveToAdvantageousTile;
+import org.salemelrahal.enyo.action.monster.MoveTowardsEnemy;
 import org.salemelrahal.enyo.enemy.Enemy;
 import bothack.bot.IGame;
 import bothack.bot.Hunger;
@@ -39,8 +40,16 @@ end
 
 rule "Move to advantageous tile instead of attacking"
 when
-	attack : Attack()
+	$attack : Attack()
 	MoveToAdvantageousTile()
 then
-	delete(attack);
+	delete($attack);
+end
+
+rule "Move to advantageous tile instead of approaching enemies"
+when
+	$approach : MoveTowardsEnemy()
+	MoveToAdvantageousTile()
+then
+	delete($approach);
 end

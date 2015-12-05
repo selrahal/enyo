@@ -1,4 +1,4 @@
-package org.salemelrahal.enyo.action;
+package org.salemelrahal.enyo.action.monster;
 
 import org.salemelrahal.enyo.enemy.Enemy;
 
@@ -8,13 +8,13 @@ import bothack.actions.Navigation.IPath;
 import bothack.bot.Direction;
 import bothack.bot.IGame;
 
-public class MoveTowardsEnemy implements Action{
+public class MoveTowardsEnemy implements TargetEnemyAction{
 	private IAction delegate;
-	private Enemy enemy;
+	private Enemy target;
 	
 	public MoveTowardsEnemy(Enemy enemy, IAction move) {
 		this.delegate = move;
-		this.enemy = enemy;
+		this.target = enemy;
 	}
 	
 	public MoveTowardsEnemy(Enemy enemy, Direction dir) {
@@ -29,12 +29,8 @@ public class MoveTowardsEnemy implements Action{
 		return delegate;
 	}
 
-	public Enemy getEnemy() {
-		return enemy;
-	}
-
-	public void setEnemy(Enemy enemy) {
-		this.enemy = enemy;
+	public Enemy getTarget() {
+		return target;
 	}
 	
 }
