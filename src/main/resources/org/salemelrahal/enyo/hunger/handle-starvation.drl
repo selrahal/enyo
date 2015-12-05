@@ -55,7 +55,7 @@ end
 
 rule "Eating is more important than picking up an item"
 when
-	Eat()
+	$eat : Eat()
 	$pickup: PickUpItem()
 then
 	delete($pickup);
@@ -63,7 +63,7 @@ end
 
 rule "Eating is more important than waiting"
 when
-	Eat()
+	$eat : Eat()
 	$wait: Wait()
 then
 	delete($wait);
@@ -73,15 +73,15 @@ rule "Defer eating when dealing with monster"
 when
 	IGame(player.hunger() != Hunger.WEAK) 
 	$eat : Eat()
-	TargetEnemyAction()
+	$targetAction : TargetEnemyAction()
 then
 	delete($eat);
 end
 
 rule "Eats are identical (for now)"
 when
-	first : Eat()
-	second : Eat(second != first)
+	$first : Eat()
+	$second : Eat(this != $first)
 then
-	delete(second);
+	delete($second);
 end

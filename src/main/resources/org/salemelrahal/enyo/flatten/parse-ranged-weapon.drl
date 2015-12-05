@@ -10,7 +10,7 @@ global org.slf4j.Logger logger;
 
 rule "Parse Ranged Weapon"
 when
-	ItemInInventory($slot : slot, $item : item, $item.name().contains("dagger"))
+	$item : ItemInInventory($slot : slot, item.name().contains("dagger"))
 then
-	insert(new RangedWeapon($slot));
+	insert(new RangedWeapon($slot)); //TODO:change this to RangedWeapon($item) 
 end

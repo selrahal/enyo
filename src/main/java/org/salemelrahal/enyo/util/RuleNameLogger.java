@@ -13,5 +13,14 @@ public class RuleNameLogger extends DefaultAgendaEventListener {
 
 	public void afterMatchFired(AfterMatchFiredEvent event) {
 		logger.info("---Match fired: " + event.getMatch().getRule().getName());
+		
+		for (String key : event.getMatch().getDeclarationIds()) {
+			logger.info("-------" + key + ":" + event.getMatch().getDeclarationValue(key));
+		}
+		
+		for (Object fact : event.getMatch().getObjects()) {
+			logger.info("------*" + fact);
+		}
+		
 	}
 }

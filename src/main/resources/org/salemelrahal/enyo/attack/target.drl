@@ -24,7 +24,7 @@ global org.slf4j.Logger logger;
 
 rule "Deal with stronger enemies first"
 when
-	TargetEnemyAction($difficulty : target.getDifficulty())
+	$stronger : TargetEnemyAction($difficulty : target.getDifficulty())
 	$weaker : TargetEnemyAction(target.getDifficulty() < $difficulty)
 then
 	delete($weaker);
@@ -32,7 +32,7 @@ end
 
 rule "Deal with stronger enemies first, closer enemies second"
 when
-	TargetEnemyAction($difficulty : target.getDifficulty(), $distance : target.getDistance())
+	$closer : TargetEnemyAction($difficulty : target.getDifficulty(), $distance : target.getDistance())
 	$farther  : TargetEnemyAction(target.getDifficulty() == $difficulty, target.getDistance() > $distance)
 then
 	delete($farther);
@@ -40,8 +40,8 @@ end
 
 rule "Deal with equivalently strong and close enemies at random"
 when
-	TargetEnemyAction($difficulty : target.getDifficulty(), $distance : target.getDistance())
-	$second  : TargetEnemyAction(target.getDifficulty() == $difficulty, target.getDistance() == $distance)
+	$first : TargetEnemyAction($difficulty : target.getDifficulty(), $distance : target.getDistance())
+	$second  : TargetEnemyAction(target.getDifficulty() == $difficulty, target.getDistance() == $distance, this != $first)
 then
 	delete($second);
 end

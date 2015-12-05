@@ -29,19 +29,36 @@ end
 
 rule "Move to advantageous tile when about to face many enemies" 
 when
+	IGame($player : player)
 	$first : Enemy(isAwake())
-	Enemy(isAwake(),  this != $first)
+	$second : Enemy(isAwake(),  this != $first)
 	not OnElbereth()
 	not OnAdvantageousTile()
 	PathToAdvantageousTile($path : path != null)
 then
-	insertLogical(new MoveToAdvantageousTile($path));
+	insertLogical(new MoveToAdvantageousTile($player, $path));
+end
+
+rule "Identical directions make identical moves"
+when
+	$first : MoveToAdvantageousTile($direction : direction)
+	$second : MoveToAdvantageousTile(direction == $direction, this != $first)
+then
+	delete($second);
+end
+
+rule "Closer advantageous tiles are better"
+when
+	$closer : MoveToAdvantageousTile($distance : distance)
+	$farther : MoveToAdvantageousTile(distance > $distance)
+then
+	delete($farther);
 end
 
 rule "Move to advantageous tile instead of attacking"
 when
 	$attack : Attack()
-	MoveToAdvantageousTile()
+	$move : MoveToAdvantageousTile()
 then
 	delete($attack);
 end
@@ -49,7 +66,7 @@ end
 rule "Move to advantageous tile instead of approaching enemies"
 when
 	$approach : MoveTowardsEnemy()
-	MoveToAdvantageousTile()
+	$move : MoveToAdvantageousTile()
 then
 	delete($approach);
 end

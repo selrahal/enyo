@@ -40,10 +40,20 @@ then
 	insertLogical(new Engrave($slot, "Elbereth"));
 end
 
-rule "Engraves with the same slot and text are identical" //Use truth evaluation here?
+rule "Engraves with the same slot and text are identical"
 when
-	Engrave($slot : slot, $message : message)
-	$second : Engrave(slot == $slot, message == $message)
+	$first : Engrave($slot : slot, $message : message)
+	$second : Engrave(slot == $slot, message == $message, this != $first)
 then
 	delete($second);
+end
+
+
+rule "Engrave is better than acting if the monsters respecst E"
+when
+	$engrave : Engrave(message == "Elbereth")
+	$enemy : Enemy(respectsElbereth)
+	$action : TargetEnemyAction(target == $enemy)
+then
+	delete($action);
 end

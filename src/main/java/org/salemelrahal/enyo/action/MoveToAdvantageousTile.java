@@ -5,22 +5,26 @@ import bothack.actions.IAction;
 import bothack.actions.Navigation.IPath;
 import bothack.bot.Direction;
 import bothack.bot.IGame;
+import bothack.bot.IPosition;
 
 public class MoveToAdvantageousTile implements Action{
-	private IAction delegate;
-	public MoveToAdvantageousTile(Direction dir) {
-		delegate = Actions.Move(dir);
-	}
+	private Direction direction;
+	private Integer distance;
 	
-	public MoveToAdvantageousTile(IAction move) {
-		delegate = move;
-	}
-	
-	public MoveToAdvantageousTile(IPath path) {
-		delegate = path.step();
+	public MoveToAdvantageousTile(IPosition myPosition, IPath path) {
+		direction =Direction.towards(myPosition, path.path().get(0));
+		distance = path.path().size();
 	}
 	
 	public IAction delegate(IGame game) {
-		return delegate;
+		return Actions.Move(direction);
+	}
+	
+	public Direction getDirection() {
+		return this.direction;
+	}
+	
+	public Integer getDistance() {
+		return this.distance;
 	}
 }
